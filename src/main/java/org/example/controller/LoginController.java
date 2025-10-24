@@ -31,8 +31,6 @@ public class LoginController {
 
             if (userOptional.isEmpty()){
 
-                System.out.println("User is empty!");
-
 
                 return "Invalid email or password";
             } else {
@@ -44,7 +42,6 @@ public class LoginController {
                 }
                 else{
 
-                    System.out.println("Match is::"+ passwordEncoder.matches("1234", user.getPin()));
 
                     return "Invalid email or password";
                 }
