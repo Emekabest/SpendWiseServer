@@ -30,5 +30,4 @@ public class Notification {
     @Column(name = "is_read")  // rename to is_read in DB
     private boolean read;
 
-
 }

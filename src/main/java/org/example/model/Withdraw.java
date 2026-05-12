@@ -16,6 +16,7 @@ public class Withdraw {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String withdrawTxnId;
     private String email;
 
     private String accountNumber;

@@ -22,7 +22,6 @@ public class BudgetController {
 
     @PostMapping({"/setbudget"})
     public String setBudget(@RequestBody Budget budget){
-
         try{
 
             budget.setAccessAmount(budget.getLimitAmount());
@@ -41,9 +40,7 @@ public class BudgetController {
                 budget.setAccessAmountNextRestoredDate(30);
             }
 
-
             budgetService.add(budget);
-
 
             return "Successful";
 

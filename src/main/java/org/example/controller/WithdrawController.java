@@ -17,7 +17,6 @@ public class WithdrawController {
     public String withdraw(@RequestBody Withdraw withdraw){
 
         try {
-
             withdrawService.add(withdraw);
             withdrawService.sendEmailRequest(withdraw);
 

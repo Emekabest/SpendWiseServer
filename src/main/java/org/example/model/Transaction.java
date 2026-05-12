@@ -18,12 +18,14 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String withdrawTxnId;
+    private String userEmail;
+
 
     private String type;
     private String title;
-    private String amount;
+    private int amount;
     private LocalDateTime time;
     private String status;
 
-    private String userEmail;
 }
