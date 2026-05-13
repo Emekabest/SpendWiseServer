@@ -40,8 +40,8 @@ public class OtpService {
     public String sendOtp(String otp, String to){
 
         MyEmail myEmail = new MyEmail();
-        myEmail.setFrom("josephemekabest2611@gmail.com");
-        myEmail.setSubject("OTP Code");
+        myEmail.setFrom("onboarding@resend.dev");
+        myEmail.setSubject("SpendWise Signup OTP Code");
         myEmail.setMessage("Your OTP code is: " + otp);
         myEmail.setTo(to);
 

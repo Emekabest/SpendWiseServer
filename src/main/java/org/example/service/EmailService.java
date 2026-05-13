@@ -38,10 +38,10 @@ public class EmailService {
                 .header("Authorization", "Bearer " + resendApiKey)
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(Map.of(
-                        "from", "onboarding@resend.dev",
+                        "from", myEmail.getFrom(),
                         "to", myEmail.getTo(),
-                        "subject", "Your OTP Code",
-                        "html", "<p>Your OTP is 123456</p>"
+                        "subject", myEmail.getSubject(),
+                        "html", "<p>" + myEmail.getMessage() + "</p>"
                 ))
                 .retrieve()
                 .bodyToMono(String.class)
