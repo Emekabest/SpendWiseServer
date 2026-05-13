@@ -10,6 +10,9 @@ import com.sendgrid.helpers.mail.objects.Email;
 import org.example.model.MyEmail;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.http.MediaType;
+import java.util.Map;
 
 import java.io.IOException;
 
@@ -20,33 +23,35 @@ public class EmailService {
     @Value("${sendgrid.api.key}")
     private String sendGridApiKey;
 
+    @Value("${resend.apikey}")
+    private String resendApiKey;
+
 
 
     public String sendEmail(MyEmail myEmail) throws IOException {
 
-        Email from = new Email(myEmail.getFrom()); // use verified domain or Gmail for testing
-        String subject = myEmail.getSubject();
-        Email to = new Email(myEmail.getTo());
+    try{
+        WebClient client = WebClient.create("https://api.resend.com");
 
-        Content content = new Content("text/plain", myEmail.getMessage());
-        Mail mail = new Mail(from, subject, to, content);
+        client.post()
+                .uri("/emails")
+                .header("Authorization", "Bearer " + resendApiKey)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(Map.of(
+                        "from", "onboarding@resend.dev",
+                        "to", myEmail.getTo(),
+                        "subject", "Your OTP Code",
+                        "html", "<p>Your OTP is 123456</p>"
+                ))
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
 
-        SendGrid sg = new SendGrid(sendGridApiKey);
-        Request request = new Request();
 
+    } catch (java.lang.Exception e) {
+        throw new RuntimeException(e);
+    }
 
-        try {
-            request.setMethod(Method.POST);
-            request.setEndpoint("mail/send");
-            request.setBody(mail.build());
-            Response response = sg.api(request);
-
-            return "Status Code: " + response.getStatusCode() +
-                    " | Body: " + response.getBody() +
-                    " | Headers: " + response.getHeaders();
-
-        } catch (IOException ex) {
-            throw ex;
-        }
+        return "";
     }
 }
