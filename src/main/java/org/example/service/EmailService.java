@@ -20,11 +20,11 @@ import java.io.IOException;
 @Service
 public class EmailService {
 
-    @Value("${sendgrid.api.key}")
-    private String sendGridApiKey;
-
     @Value("${resend.apikey}")
     private String resendApiKey;
+
+    private String emailSender = "";
+
 
 
 
