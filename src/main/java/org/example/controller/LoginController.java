@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.model.User;
+import org.example.service.JwtService;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,14 +14,19 @@ import java.util.Optional;
 @RestController
 public class LoginController {
     private final UserService userService;
+    private final JwtService jwtService;
 
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
+
+
     @Autowired
-    public LoginController(UserService userService) {
+    public LoginController(UserService userService, JwtService jwtService) {
         this.userService = userService;
+        this.jwtService = jwtService;
     }
 
 
@@ -36,7 +42,9 @@ public class LoginController {
                 User user = (User)userOptional.get();
                 if (passwordEncoder.matches(loginReq.getPin(),user.getPin())){
 
+                    String token = jwtService.generateToken(user.getEmail());
 
+                    System.out.println("This is the generated token: " + token);
 
                     return "Successful";
                 }
