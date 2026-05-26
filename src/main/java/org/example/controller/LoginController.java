@@ -31,17 +31,16 @@ public class LoginController {
 
             if (userOptional.isEmpty()){
 
-
                 return "Invalid email or password";
             } else {
                 User user = (User)userOptional.get();
                 if (passwordEncoder.matches(loginReq.getPin(),user.getPin())){
 
 
+
                     return "Successful";
                 }
                 else{
-
 
                     return "Invalid email or password";
                 }
@@ -51,12 +50,4 @@ public class LoginController {
             throw new IllegalArgumentException("An error occurred:: " + e.getMessage());
         }
     }
-
-
-
-
-
-
-
-
 }
