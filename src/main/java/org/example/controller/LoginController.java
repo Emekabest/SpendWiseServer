@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.model.Login;
 import org.example.model.User;
 import org.example.service.JwtService;
 import org.example.service.UserService;
@@ -16,6 +17,8 @@ public class LoginController {
     private final UserService userService;
     private final JwtService jwtService;
 
+    private final Login login;
+
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -27,30 +30,35 @@ public class LoginController {
     public LoginController(UserService userService, JwtService jwtService) {
         this.userService = userService;
         this.jwtService = jwtService;
+
+        this.login = new Login();
     }
 
 
     @PostMapping({"/signin"})
-    public String Login(@RequestBody User loginReq) {
+    public Login Login(@RequestBody User loginReq) {
         try {
             Optional<User> userOptional = this.userService.get(loginReq.getEmail());
 
             if (userOptional.isEmpty()){
 
-                return "Invalid email or password";
+                login.setMessage("Invalid email or password");
+
+                return login;
             } else {
                 User user = (User)userOptional.get();
                 if (passwordEncoder.matches(loginReq.getPin(),user.getPin())){
 
-                    String token = jwtService.generateToken(user.getEmail());
+                    login.setToken(jwtService.generateToken(user.getEmail()));
 
-                    System.out.println("This is the generated token: " + token);
+                    login.setMessage("Successful");
 
-                    return "Successful";
+                    return login;
                 }
                 else{
+                    login.setMessage("Invalid email or password");
 
-                    return "Invalid email or password";
+                    return login;
                 }
             }
         } catch (Exception e) {
