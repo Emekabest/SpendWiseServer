@@ -16,10 +16,17 @@ public class JwtFilter implements Filter {
                          FilterChain filterChain) throws IOException, ServletException {
 
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-
         String authHeader = httpRequest.getHeader("Authorization");
 
-        System.out.println("This is AuthHeader"+authHeader);
+        boolean isLoginReq = "/signin".equals(httpRequest.getRequestURI());
+
+        System.out.println("LoginReq is::"+isLoginReq);
+
+        if(!isLoginReq && (authHeader == null || !authHeader.startsWith("Bearer "))){
+            System.out.println("Not an authorized request");
+
+            return;
+        }
 
 
         filterChain.doFilter(request, response);
