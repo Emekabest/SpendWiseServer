@@ -2,9 +2,14 @@ package org.example.filter;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
+import org.example.model.User;
 import org.example.service.JwtService;
+import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
 
 import java.io.IOException;
 
@@ -13,10 +18,12 @@ import java.io.IOException;
 public class JwtFilter implements Filter {
 
     private final JwtService jwtService;
+    private final UserService userService;
 
     @Autowired
-    public JwtFilter (JwtService jwtService){
+    public JwtFilter (JwtService jwtService, UserService userService){
         this.jwtService = jwtService;
+        this.userService = userService;
 
 
     }
@@ -32,18 +39,28 @@ public class JwtFilter implements Filter {
 
         boolean isLoginReq = "/signin".equals(httpRequest.getRequestURI());
         if(!isLoginReq && (authHeader == null || !authHeader.startsWith("Bearer "))){
-
-
             return;
         }
 
         String token = authHeader.substring(7);
         String userEmail = jwtService.extractUsername(token);
 
-        System.out.println("This is userEmail::"+userEmail);
+        User userDetails = userService.getUser(userEmail);
 
+       boolean isTokenValid = jwtService.isTokenValid(token, userDetails);
 
-        filterChain.doFilter(request, response);
+       if (isTokenValid){
+           UsernamePasswordAuthenticationToken authToken =
+                   new UsernamePasswordAuthenticationToken(
+                           userDetails,
+                           null,
+                           userDetails.getAuthorities()
+                   );
+
+           SecurityContextHolder.getContext().setAuthentication(authToken);
+
+           filterChain.doFilter(request, response);
+       }
 
     }
 }
