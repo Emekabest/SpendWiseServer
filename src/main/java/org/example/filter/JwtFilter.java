@@ -17,13 +17,12 @@ public class JwtFilter implements Filter {
 
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-        System.out.println("Incoming request:");
-        System.out.println("Method: " + httpRequest.getMethod());
-        System.out.println("URL: " + httpRequest.getRequestURI());
+        String authHeader = httpRequest.getHeader("Authorization");
 
-        filterChain.doFilter(request, response);
+        System.out.println("This is AuthHeader"+authHeader);
 
 
-        System.out.println("Response sent back");
+//        filterChain.doFilter(request, response);
+
     }
 }
