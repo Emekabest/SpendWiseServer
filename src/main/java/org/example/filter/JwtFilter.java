@@ -57,6 +57,7 @@ public class JwtFilter implements Filter {
        boolean isTokenValid = jwtService.isTokenValid(token, userDetails);
 
        if (isTokenValid){
+
            UsernamePasswordAuthenticationToken authToken =
                    new UsernamePasswordAuthenticationToken(
                            userDetails,
@@ -65,6 +66,8 @@ public class JwtFilter implements Filter {
                    );
 
            SecurityContextHolder.getContext().setAuthentication(authToken);
+
+           System.out.println("Token is Valid...");
 
            filterChain.doFilter(request, response);
        }
