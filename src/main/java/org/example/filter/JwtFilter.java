@@ -38,7 +38,14 @@ public class JwtFilter implements Filter {
 
 
         boolean isLoginReq = "/signin".equals(httpRequest.getRequestURI());
-        if(!isLoginReq && (authHeader == null || !authHeader.startsWith("Bearer "))){
+
+        if (isLoginReq){
+            filterChain.doFilter(request, response);
+
+            return;
+        }
+
+        if(authHeader == null || !authHeader.startsWith("Bearer ")){
             return;
         }
 
