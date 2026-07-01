@@ -22,7 +22,7 @@ public class JwtFilter implements Filter {
 
         System.out.println("LoginReq is::"+isLoginReq);
 
-        if(isLoginReq && (authHeader == null || !authHeader.startsWith("Bearer "))){
+        if(!isLoginReq && (authHeader == null || !authHeader.startsWith("Bearer "))){
             System.out.println("Not an authorized request");
 
             return;
