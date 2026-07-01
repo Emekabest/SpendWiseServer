@@ -22,7 +22,7 @@ public class JwtFilter implements Filter {
         System.out.println("This is AuthHeader"+authHeader);
 
 
-//        filterChain.doFilter(request, response);
+        filterChain.doFilter(request, response);
 
     }
 }
