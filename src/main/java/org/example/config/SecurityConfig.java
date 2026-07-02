@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .authenticated()
         ).addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
+        System.out.println("Verified Process Finished");
 
         return http.build();
     }
