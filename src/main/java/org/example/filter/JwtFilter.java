@@ -59,7 +59,7 @@ public class JwtFilter implements Filter {
                            userDetails.getAuthorities()
                    );
 
-           SecurityContextHolder.getContext().setAuthentication(authToken);
+           SecurityContextHolder.getContext().setAuthentication(authToken);//
 
            System.out.println("Token is Valid...");
 
