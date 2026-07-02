@@ -19,6 +19,8 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String secret;
 
+    private static final long JWT_EXPIRATION = 1000 * 60;
+
     private Key getSignKey() {
 
         return Keys.hmacShaKeyFor(secret.getBytes());
@@ -30,7 +32,7 @@ public class JwtService {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 3600000))
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
