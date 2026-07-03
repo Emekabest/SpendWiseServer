@@ -19,24 +19,36 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String secret;
 
-    private static final long JWT_EXPIRATION = 1000 * 60;
+    private static final long ACCESSTOKEN_JWTEXPIRATION = 1000 * 60;
+    private static final long REFRESHTOKEN_JWTEXPIRATION = 1000 * 60 * 60;
+
 
     private Key getSignKey() {
 
         return Keys.hmacShaKeyFor(secret.getBytes());
 
     }
-
-    public String generateToken(String email){
+    public String generateAccessToken(String email){
 
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION))
+                .setExpiration(new Date(System.currentTimeMillis() + ACCESSTOKEN_JWTEXPIRATION))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
+
+    public String generateRefreshToken(String email){
+
+        return Jwts.builder()
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + REFRESHTOKEN_JWTEXPIRATION))
+                .signWith(getSignKey(), SignatureAlgorithm.HS256)
+                .compact();
+
+    }
 
     public String extractUsername(String token){
 

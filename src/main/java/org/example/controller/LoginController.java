@@ -49,7 +49,9 @@ public class LoginController {
                 User user = (User)userOptional.get();
                 if (passwordEncoder.matches(loginReq.getPin(),user.getPin())){
 
-                    login.setToken(jwtService.generateToken(user.getEmail()));
+                    login.setAccessToken(jwtService.generateAccessToken(user.getEmail()));
+                    login.setRefreshToken(jwtService.generateRefreshToken(user.getEmail()));
+
 
                     login.setMessage("Successful");
 

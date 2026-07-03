@@ -26,7 +26,6 @@ public class JwtFilter implements Filter {
         this.jwtService = jwtService;
         this.userService = userService;
 
-
     }
 
 
@@ -46,12 +45,12 @@ public class JwtFilter implements Filter {
                 return;
             }
 
-            String token = authHeader.substring(7);
-            String userEmail = jwtService.extractUsername(token);
+            String accessToken = authHeader.substring(7);
+            String userEmail = jwtService.extractUsername(accessToken);
 
             User userDetails = userService.getUser(userEmail);
 
-           boolean isTokenValid = jwtService.isTokenValid(token, userDetails);
+           boolean isTokenValid = jwtService.isTokenValid(accessToken, userDetails);
 
            if (isTokenValid){
 
@@ -62,7 +61,7 @@ public class JwtFilter implements Filter {
                                userDetails.getAuthorities()
                        );
 
-               SecurityContextHolder.getContext().setAuthentication(authToken);//
+               SecurityContextHolder.getContext().setAuthentication(authToken);
 
                filterChain.doFilter(request, response);
            }
@@ -71,7 +70,5 @@ public class JwtFilter implements Filter {
 
             System.out.println("JWT Token Expired");
         }
-
-
     }
 }

@@ -4,15 +4,26 @@ package org.example.model;
 
 public class Login {
 
-    private String token;
+    private String accessToken;
+    private String refreshToken;
     private String message;
 
-    public void setToken(String token) {
-        this.token = token;
+
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
-    public String getToken() {
-        return token;
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
     }
 
     public void setMessage(String message) {
