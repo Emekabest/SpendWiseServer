@@ -63,12 +63,16 @@ public class JwtFilter implements Filter {
 
                SecurityContextHolder.getContext().setAuthentication(authToken);
 
-               filterChain.doFilter(request, response);
+//               filterChain.doFilter(request, response);
            }
 
         } catch (ExpiredJwtException e) {
 
             System.out.println("JWT Token Expired");
+        } catch (Exception e){
+            System.out.println("Invalid JWT");
         }
+
+        filterChain.doFilter(request, response);
     }
 }
