@@ -34,7 +34,7 @@ public class SecurityConfig {
                                 } )
         ).sessionManagement(
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        ).authorizeHttpRequests(auth -> auth.requestMatchers("/signin","/signup")
+        ).authorizeHttpRequests(auth -> auth.requestMatchers("/signin","/signup", "/refreshtoken")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
