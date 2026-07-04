@@ -1,6 +1,6 @@
 package org.example.controller;
 
-import org.example.model.Login;
+import org.example.model.AuthResponse;
 import org.example.model.User;
 import org.example.service.JwtService;
 import org.example.service.UserService;
@@ -17,7 +17,7 @@ public class LoginController {
     private final UserService userService;
     private final JwtService jwtService;
 
-    private final Login login;
+    private final AuthResponse login;
 
 
     @Autowired
@@ -31,12 +31,12 @@ public class LoginController {
         this.userService = userService;
         this.jwtService = jwtService;
 
-        this.login = new Login();
+        this.login = new AuthResponse();
     }
 
 
     @PostMapping({"/signin"})
-    public Login Login(@RequestBody User loginReq) {
+    public AuthResponse Login(@RequestBody User loginReq) {
         try {
             Optional<User> userOptional = this.userService.get(loginReq.getEmail());
 

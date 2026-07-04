@@ -2,7 +2,7 @@ package org.example.model;
 
 
 
-public class Login {
+public class AuthResponse {
 
     private String accessToken;
     private String refreshToken;
