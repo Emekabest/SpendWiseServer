@@ -17,12 +17,11 @@ public class LoginController {
     private final UserService userService;
     private final JwtService jwtService;
 
-    private final AuthResponse login;
+    private final AuthResponse authResponse;
 
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
 
 
 
@@ -31,7 +30,7 @@ public class LoginController {
         this.userService = userService;
         this.jwtService = jwtService;
 
-        this.login = new AuthResponse();
+        this.authResponse = new AuthResponse();
     }
 
 
@@ -42,25 +41,25 @@ public class LoginController {
 
             if (userOptional.isEmpty()){
 
-                login.setMessage("Invalid email or password");
+                authResponse.setMessage("Invalid email or password");
 
-                return login;
+                return authResponse;
             } else {
                 User user = (User)userOptional.get();
                 if (passwordEncoder.matches(loginReq.getPin(),user.getPin())){
 
-                    login.setAccessToken(jwtService.generateAccessToken(user.getEmail()));
-                    login.setRefreshToken(jwtService.generateRefreshToken(user.getEmail()));
+                    authResponse.setAccessToken(jwtService.generateAccessToken(user.getEmail()));
+                    authResponse.setRefreshToken(jwtService.generateRefreshToken(user.getEmail()));
 
 
-                    login.setMessage("Successful");
+                    authResponse.setMessage("Successful");
 
-                    return login;
+                    return authResponse;
                 }
                 else{
-                    login.setMessage("Invalid email or password");
+                    authResponse.setMessage("Invalid email or password");
 
-                    return login;
+                    return authResponse;
                 }
             }
         } catch (Exception e) {
