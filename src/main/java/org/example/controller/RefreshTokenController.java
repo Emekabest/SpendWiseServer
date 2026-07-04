@@ -1,10 +1,6 @@
-package org.example.model;
+package org.example.controller;
 
 public class RefreshTokenController {
-
-
-
-
 
 
 }
