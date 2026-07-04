@@ -50,8 +50,6 @@ public class LoginController {
 
                     authResponse.setAccessToken(jwtService.generateAccessToken(user.getEmail()));
                     authResponse.setRefreshToken(jwtService.generateRefreshToken(user.getEmail()));
-
-
                     authResponse.setMessage("Successful");
 
                     return authResponse;
