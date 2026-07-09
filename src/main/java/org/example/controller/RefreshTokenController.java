@@ -1,9 +1,6 @@
 package org.example.controller;
 
-<<<<<<< HEAD
-=======
 
->>>>>>> fixIssue
 import org.example.model.AuthResponse;
 import org.example.model.User;
 import org.example.service.JwtService;
@@ -16,11 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RefreshTokenController {
 
-<<<<<<< HEAD
-    private final AuthResponse authResponse;
-=======
     private final AuthResponse authresponse;
->>>>>>> fixIssue
 
     private final JwtService jwtService;
     private final UserService userService;
@@ -30,26 +23,15 @@ public class RefreshTokenController {
     public RefreshTokenController(JwtService jwtService, UserService userService) {
         this.jwtService = jwtService;
         this.userService = userService;
-<<<<<<< HEAD
-        this.authResponse = new AuthResponse();
-=======
         this.authresponse = new AuthResponse();
->>>>>>> fixIssue
     }
 
 
     @PostMapping({"/refreshtoken"})
-<<<<<<< HEAD
-    public AuthResponse RefreshToken(@RequestBody AuthResponse authResponse){
-
-        try{
-            String refreshToken = authResponse.getRefreshToken();
-=======
     public AuthResponse RefreshToken(@RequestBody AuthResponse request){
 
         try{
             String refreshToken = request.getRefreshToken();
->>>>>>> fixIssue
 
             String userEmail = jwtService.extractUsername(refreshToken);
 
@@ -63,9 +45,6 @@ public class RefreshTokenController {
 
             String newAccessToken = jwtService.generateAccessToken(userEmail);
 
-<<<<<<< HEAD
-            return new AuthResponse(newAccessToken, refreshToken, "Successful");
-=======
 
 
 
@@ -76,7 +55,6 @@ public class RefreshTokenController {
 
 
             return authresponse;
->>>>>>> fixIssue
 
         } catch (Exception e) {
             throw new RuntimeException(e);
