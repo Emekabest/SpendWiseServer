@@ -19,8 +19,8 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String secret;
 
-    private static final long ACCESSTOKEN_JWTEXPIRATION = 1000 * 60;
-    private static final long REFRESHTOKEN_JWTEXPIRATION = 1000 * 60 * 3;
+    private static final long ACCESSTOKEN_JWTEXPIRATION = 1000 * 60 * 10;
+    private static final long REFRESHTOKEN_JWTEXPIRATION = 1000 * 60 * 60;
 
 
     private Key getSignKey() {
