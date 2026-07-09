@@ -25,7 +25,6 @@ public class LoginController {
 
 
 
-
     @Autowired
     public LoginController(UserService userService, JwtService jwtService) {
         this.userService = userService;
@@ -51,10 +50,15 @@ public class LoginController {
 
                     authResponse.setAccessToken(jwtService.generateAccessToken(user.getEmail()));
                     authResponse.setRefreshToken(jwtService.generateRefreshToken(user.getEmail()));
+<<<<<<< HEAD
 
 
                     authResponse.setMessage("Successful");
 
+=======
+                    authResponse.setMessage("Successful");
+
+>>>>>>> fixIssue
                     return authResponse;
                 }
                 else{

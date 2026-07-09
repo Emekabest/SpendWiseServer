@@ -4,6 +4,7 @@ package org.example.config;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.filter.JwtFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,15 +26,15 @@ public class SecurityConfig {
 
         http.csrf(csrf -> csrf.disable()).exceptionHandling(
 
-                    exception ->
+                exception ->
 
-                            exception.authenticationEntryPoint(
-                                    (request, response, authException) -> {
-                                response.sendError( HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized" );
-                            } )
-                ).sessionManagement(
-            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        ).authorizeHttpRequests(auth -> auth.requestMatchers("/signin","/signup")
+                        exception.authenticationEntryPoint(
+                                (request, response, authException) -> {
+                                    response.sendError( HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized" );
+                                } )
+        ).sessionManagement(
+                session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        ).authorizeHttpRequests(auth -> auth.requestMatchers("/signin","/signup", "/refreshtoken")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -41,4 +42,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-}
+}//
