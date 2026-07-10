@@ -13,12 +13,14 @@ public class WithdrawController {
     @Autowired
     private WithdrawService withdrawService;
 
+
+
     @PostMapping({"/withdraw"})
     public String withdraw(@RequestBody Withdraw withdraw){
 
         try {
             withdrawService.add(withdraw);
-            withdrawService.sendEmailRequest(withdraw);
+            withdrawService.request(withdraw);
 
             withdrawService.updateAllBalance(withdraw);
 

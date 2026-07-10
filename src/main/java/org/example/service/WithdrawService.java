@@ -1,15 +1,16 @@
 package org.example.service;
 
+import org.example.event.WithdrawEvent;
 import org.example.model.Budget;
 import org.example.model.MyEmail;
 import org.example.model.User;
 import org.example.model.Withdraw;
 import org.example.repository.WithdrawRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class WithdrawService {
@@ -23,11 +24,14 @@ public class WithdrawService {
     @Autowired
     private BudgetService budgetService;
 
+    private final ApplicationEventPublisher publisher;
+
     @Autowired
     private EmailService emailService;
 
-    public WithdrawService(){
 
+    public WithdrawService(ApplicationEventPublisher publisher){
+        this.publisher = publisher;
 
     }
 
@@ -35,6 +39,8 @@ public class WithdrawService {
     public void add(Withdraw withdraw){
 
         withdrawRepository.save(withdraw);
+
+        publisher.publishEvent(new WithdrawEvent(withdraw));
     }
 
 
@@ -49,7 +55,7 @@ public class WithdrawService {
     }
 
 
-    public void sendEmailRequest(Withdraw withdraw){
+    public void request(Withdraw withdraw){
 
         try {
             MyEmail myEmail = new MyEmail();
