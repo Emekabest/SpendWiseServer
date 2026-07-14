@@ -10,6 +10,7 @@ import com.sendgrid.helpers.mail.objects.Email;
 import org.example.model.MyEmail;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.http.MediaType;
 import java.util.Map;
@@ -50,7 +51,12 @@ public class EmailService {
                 .block();
 
 
-    } catch (java.lang.Exception e) {
+    }catch (HttpClientErrorException e){
+
+        System.out.println("StatusCode::"+e.getStatusCode());
+        System.out.println("ResponseBody::"+e.getResponseBodyAsString());
+
+    }catch (java.lang.Exception e) {
 
         System.out.println("An error occurred::"+e.getMessage());
 
