@@ -1,21 +1,14 @@
 package org.example.service;
 
-import com.sendgrid.Method;
-import com.sendgrid.Request;
-import com.sendgrid.Response;
-import com.sendgrid.SendGrid;
-import com.sendgrid.helpers.mail.Mail;
-import com.sendgrid.helpers.mail.objects.Content;
-import com.sendgrid.helpers.mail.objects.Email;
 import org.example.model.MyEmail;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.http.MediaType;
-import java.util.Map;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.io.IOException;
+import java.util.Map;
 
 
 @Service
@@ -51,7 +44,7 @@ public class EmailService {
                 .block();
 
 
-    }catch (HttpClientErrorException e){
+    }catch (WebClientResponseException e){
 
         System.out.println("StatusCode::"+e.getStatusCode());
         System.out.println("ResponseBody::"+e.getResponseBodyAsString());
