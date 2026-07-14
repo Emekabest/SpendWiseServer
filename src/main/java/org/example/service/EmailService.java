@@ -33,6 +33,8 @@ public class EmailService {
     try{
         WebClient client = WebClient.create("https://api.resend.com");
 
+        System.out.println("Resend Api Key::"+resendApiKey);
+
         client.post()
                 .uri("/emails")
                 .header("Authorization", "Bearer " + resendApiKey)
