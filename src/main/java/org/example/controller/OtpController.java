@@ -39,6 +39,8 @@ public class OtpController {
 
             otpService.add(userOtp);
 
+            System.out.println("Otp Added Successfully");
+
             String otpResponse =  otpService.sendOtp(otp, emailRequest.getEmail());
 
             return "Successful";

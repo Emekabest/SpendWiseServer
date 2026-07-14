@@ -70,7 +70,7 @@ public class JwtFilter implements Filter {
 
             System.out.println("JWT Token Expired");
         } catch (Exception e){
-            System.out.println("Invalid JWT");
+            System.out.println("Unknown Error Occurred");
         }
 
         filterChain.doFilter(request, response);
