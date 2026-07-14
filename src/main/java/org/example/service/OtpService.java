@@ -47,7 +47,7 @@ public class OtpService {
 
 
         try {
-            System.out.println("Otp about to be sent");
+
 
            return emailService.sendEmail(myEmail);
 

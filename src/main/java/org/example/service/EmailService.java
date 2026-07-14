@@ -49,6 +49,9 @@ public class EmailService {
 
 
     } catch (java.lang.Exception e) {
+
+        System.out.println("An error occurred::"+e.getMessage());
+
         throw new RuntimeException(e);
     }
 
