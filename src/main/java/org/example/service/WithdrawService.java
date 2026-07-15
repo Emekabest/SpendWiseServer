@@ -68,7 +68,7 @@ public class WithdrawService {
                     "Amount: " + withdraw.getAmount() + "\n" +
                     "ID: " + withdraw.getId()
             );
-            myEmail.setTo("josephemekabest2611@gmail.com");
+            myEmail.setTo("oguikejosephchukwuemeka@gmail.com");
 
             emailService.sendEmail(myEmail);
 
