@@ -59,7 +59,7 @@ public class WithdrawService {
 
         try {
             MyEmail myEmail = new MyEmail();
-            myEmail.setFrom("dimmaoguike@gmail.com");
+            myEmail.setFrom("onboarding@resend.dev");
             myEmail.setSubject("Request To Withdraw");
             myEmail.setMessage("A withdrawal request from " + withdraw.getEmail() +"\n" +
                     "Account Number: " + withdraw.getAccountNumber() + "\n" +

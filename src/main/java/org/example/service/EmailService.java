@@ -17,8 +17,7 @@ public class EmailService {
     @Value("${resend.apikey}")
     private String resendApiKey;
 
-    private String emailSender = "";
-
+    private String emailSender = "onboarding@resend.dev";
 
 
 
@@ -27,14 +26,12 @@ public class EmailService {
     try{
         WebClient client = WebClient.create("https://api.resend.com");
 
-        System.out.println("Resend Api Key::"+resendApiKey);
-
         client.post()
                 .uri("/emails")
                 .header("Authorization", "Bearer " + resendApiKey)
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(Map.of(
-                        "from", myEmail.getFrom(),
+                        "from", emailSender,
                         "to", myEmail.getTo(),
                         "subject", myEmail.getSubject(),
                         "html", "<p>" + myEmail.getMessage() + "</p>"
