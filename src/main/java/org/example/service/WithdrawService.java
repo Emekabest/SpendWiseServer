@@ -56,6 +56,8 @@ public class WithdrawService {
 
         transactionService.add(transaction);
 
+        System.out.println("Withdrawal Requested Successfully");
+
         publisher.publishEvent(new WithdrawEvent(withdraw));
     }
 
