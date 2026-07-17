@@ -20,7 +20,6 @@ public class WithdrawController {
 
         try {
             withdrawService.add(withdraw);
-            withdrawService.request(withdraw);
 
             withdrawService.updateAllBalance(withdraw);
 

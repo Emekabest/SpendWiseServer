@@ -56,8 +56,6 @@ public class WithdrawService {
 
         transactionService.add(transaction);
 
-        System.out.println("Withdrawal Requested Successfully");
-
         publisher.publishEvent(new WithdrawEvent(withdraw));
     }
 
@@ -71,31 +69,6 @@ public class WithdrawService {
 
         withdrawRepository.save(withdraw);
     }
-
-
-    public void request(Withdraw withdraw){
-
-        try {
-            MyEmail myEmail = new MyEmail();
-            myEmail.setFrom("onboarding@resend.dev");
-            myEmail.setSubject("Request To Withdraw");
-            myEmail.setMessage("A withdrawal request from " + withdraw.getEmail() +"\n" +
-                    "Account Number: " + withdraw.getAccountNumber() + "\n" +
-                    "Bank Name: " + withdraw.getBankName() + "\n" +
-                    "Account Name: " + withdraw.getAccountName() + "\n" +
-                    "Amount: " + withdraw.getAmount() + "\n" +
-                    "ID: " + withdraw.getId()
-            );
-            myEmail.setTo("oguikejosephchukwuemeka@gmail.com");
-
-            emailService.sendEmail(myEmail);
-
-        } catch (Exception e) {
-
-            throw new RuntimeException(e);
-        }
-    }
-
 
 
     public void updateAllBalance(Withdraw withdraw){
