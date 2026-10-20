@@ -1,6 +1,5 @@
 package org.example.service;
 
-import org.example.model.Notification;
 import org.example.model.Transaction;
 import org.example.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class TransactionService {
 
 
     public void update(Transaction updatedTransaction){
-        Optional<Transaction> transactionOptional = transactionRepository.findByWithdrawTxnId(updatedTransaction.getTransactionRef());
+        Optional<Transaction> transactionOptional = transactionRepository.findByTransactionRef(updatedTransaction.getTransactionRef());
 
         if (transactionOptional.isPresent()){
             Transaction transaction = transactionOptional.get();
