@@ -13,11 +13,14 @@ public class OpayController {
     public String Request(@RequestBody Opay opay){
 
         try {
-            System.out.println("Hey");
 
+            System.out.println(opay.getTransactionRef());
+            System.out.println(opay.getAmount());
+            System.out.println(opay.getUserEmail());
 
-            return "Hello from opay Controller";
+            return "";
         } catch (Exception e) {
+
             throw new RuntimeException(e);
         }
     }
