@@ -37,7 +37,7 @@ public class OpayController {
 
             transactionService.add(transaction);
 
-            return "";
+            return "Successfully";
         } catch (Exception e) {
 
             throw new RuntimeException(e);
