@@ -56,6 +56,7 @@ public class WithdrawService {
 
         transactionService.add(transaction);
 
+
         publisher.publishEvent(new WithdrawEvent(withdraw));
     }
 

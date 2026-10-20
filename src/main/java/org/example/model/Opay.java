@@ -2,7 +2,7 @@ package org.example.model;
 
 public class Opay {
 
-    private final String transactionRef;
+    private String transactionRef;
     private final int amount;
     private final String userEmail;
 
@@ -13,6 +13,10 @@ public class Opay {
 
     }
 
+    public void setTransactionRef(String transactionRef){
+
+        this.transactionRef = transactionRef;
+    }
 
     public String getTransactionRef() {
         return transactionRef;
