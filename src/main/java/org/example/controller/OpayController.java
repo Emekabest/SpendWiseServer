@@ -3,6 +3,7 @@ package org.example.controller;
 import org.example.model.DateTime;
 import org.example.model.Opay;
 import org.example.model.Transaction;
+import org.example.service.FlutterWaveService;
 import org.example.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,11 +20,15 @@ public class OpayController {
     private TransactionService transactionService;
 
 
+    @Autowired
+    private FlutterWaveService flutterWaveService;
+
+
     @PostMapping({"/addfunds-opay"})
     public String Request(@RequestBody Opay opay){
         try {
             String transactionRef = UUID.randomUUID().toString();
-            opay.setTransactionRef(transactionRef);
+
 
             Transaction transaction = new Transaction();
 
@@ -36,6 +41,10 @@ public class OpayController {
             transaction.setStatus("pending");
 
             transactionService.add(transaction);
+
+
+            opay.setTransactionRef(transactionRef);
+            flutterWaveService.opayPayment(opay);
 
             return "Successfully";
         } catch (Exception e) {
