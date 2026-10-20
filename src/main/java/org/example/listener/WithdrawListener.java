@@ -9,17 +9,17 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EmailListener {
+public class WithdrawListener {
 
     private final EmailService emailService;
 
-    public EmailListener(EmailService emailService){
+    public WithdrawListener(EmailService emailService){
         this.emailService = emailService;
 
     }
 
     @EventListener
-    public void sendWithdrawRequest(WithdrawEvent event){
+    public void handleWithdrawEvent(WithdrawEvent event){
 
         Withdraw withdraw = event.getWithdraw();
 

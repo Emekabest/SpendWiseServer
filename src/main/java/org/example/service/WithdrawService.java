@@ -46,7 +46,7 @@ public class WithdrawService {
 
 
         Transaction transaction = new Transaction();
-        transaction.setWithdrawTxnId(withdraw.getWithdrawTxnId());
+        transaction.setTransactionRef(withdraw.getWithdrawTxnId());
         transaction.setUserEmail(withdraw.getEmail());
         transaction.setType("withdrawal");
         transaction.setTitle("Withdrawal");

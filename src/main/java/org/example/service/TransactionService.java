@@ -28,7 +28,7 @@ public class TransactionService {
 
 
     public void update(Transaction updatedTransaction){
-        Optional<Transaction> transactionOptional = transactionRepository.findByWithdrawTxnId(updatedTransaction.getWithdrawTxnId());
+        Optional<Transaction> transactionOptional = transactionRepository.findByWithdrawTxnId(updatedTransaction.getTransactionRef());
 
         if (transactionOptional.isPresent()){
             Transaction transaction = transactionOptional.get();

@@ -18,7 +18,7 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String withdrawTxnId;
+    private String transactionRef;
     private String userEmail;
 
 
@@ -28,4 +28,12 @@ public class Transaction {
     private LocalDateTime time;
     private String status;
 
+
+    public void setTransactionRef(String transactionRef) {
+        this.transactionRef = transactionRef;
+    }
+
+    public String getTransactionRef() {
+        return transactionRef;
+    }
 }

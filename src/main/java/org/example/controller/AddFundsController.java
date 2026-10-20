@@ -28,7 +28,6 @@ public class AddFundsController{
                 userService.update(user);
             }
 
-
             return "Successful";
         } catch (Exception e){
 
