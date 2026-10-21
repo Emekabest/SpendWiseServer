@@ -44,9 +44,8 @@ public class OpayController {
 
 
             opay.setTransactionRef(transactionRef);
-            flutterWaveService.opayPayment(opay);
 
-            return "Successfully";
+            return flutterWaveService.opayPayment(opay);
         } catch (Exception e) {
 
             throw new RuntimeException(e);

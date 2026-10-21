@@ -32,9 +32,7 @@ public class FlutterWaveService {
                 .body(String.class);
 
 
-        System.out.println("This is response::"+response);
-
-        return "Successful";
+        return response;
     }
 
 

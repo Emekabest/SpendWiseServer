@@ -6,6 +6,7 @@ public class Opay {
     private final int amount;
     private final String userEmail;
 
+
     public Opay(String transactionRef, int amount, String userEmail){
         this.transactionRef = transactionRef;
         this.amount = amount;
