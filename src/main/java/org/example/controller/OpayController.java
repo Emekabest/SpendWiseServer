@@ -7,9 +7,7 @@ import org.example.service.FlutterWaveService;
 import org.example.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.UUID;
@@ -40,7 +38,7 @@ public class OpayController {
             transaction.setTitle("Funding");
             transaction.setAmount(opay.getAmount());
             transaction.setTime(DateTime.getLocalDateTime());
-            transaction.setStatus("pending");
+            transaction.setPaymentStatus("pending");
 
             transactionService.add(transaction);
 
@@ -58,6 +56,22 @@ public class OpayController {
 
             throw new RuntimeException(e);
         }
+    }
+
+
+    @GetMapping({"/addfunds-opay/callback"})
+    public ResponseEntity<String> paymentCallback(
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String tx_ref,
+            @RequestParam(required = false) String transaction_id
+    ){
+
+
+        System.out.println("Callback status: " + status);
+        System.out.println("Transaction ref: " + tx_ref);
+        System.out.println("Transaction ID: " + transaction_id);
+
+        return ResponseEntity.ok("Callback received");
     }
 
 }

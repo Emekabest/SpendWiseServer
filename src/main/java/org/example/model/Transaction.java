@@ -26,7 +26,8 @@ public class Transaction {
     private String title;
     private int amount;
     private LocalDateTime time;
-    private String status;
+    private String paymentStatus;
+    private String checkoutStatus;
 
 
     public void setTransactionRef(String transactionRef) {
@@ -77,11 +78,19 @@ public class Transaction {
         return time;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
-    public String getStatus() {
-        return status;
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setCheckoutStatus(String checkoutStatus) {
+        this.checkoutStatus = checkoutStatus;
+    }
+
+    public String getCheckoutStatus() {
+        return checkoutStatus;
     }
 }

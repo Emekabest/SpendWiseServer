@@ -52,7 +52,7 @@ public class WithdrawService {
         transaction.setTitle("Withdrawal");
         transaction.setAmount(withdraw.getAmount());
         transaction.setTime(DateTime.getLocalDateTime());
-        transaction.setStatus("pending");
+        transaction.setPaymentStatus("pending");
 
         transactionService.add(transaction);
 
