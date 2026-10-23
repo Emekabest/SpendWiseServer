@@ -29,9 +29,7 @@ public class VerifyOpayTransactionController {
         System.out.println("triggered...");
 
         Map<String, Object> response = new HashMap<>();
-        response.put("status","...");
-//        response.put("transactionStatus", verifyOpayPaymentResponse.data.status);
-//        response.put("message", verifyOpayPaymentResponse.data.processor_response);
+        response.put("data", verifyOpayPaymentResponse);
 
         return ResponseEntity.ok(response);
     }
