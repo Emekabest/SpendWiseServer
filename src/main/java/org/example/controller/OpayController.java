@@ -59,7 +59,7 @@ public class OpayController {
     }
 
 
-    @GetMapping({"/addfunds-opay/callback"})
+    @GetMapping({"/opaypaymentcallback"})
     public ResponseEntity<String> paymentCallback(
             @RequestParam(required = false) String status,
             @RequestParam(required = false) String tx_ref,
