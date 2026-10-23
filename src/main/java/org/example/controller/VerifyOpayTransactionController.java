@@ -24,7 +24,7 @@ public class VerifyOpayTransactionController {
     public ResponseEntity<?> request(@RequestBody Opay opay){
 
 
-        String verifyOpayPaymentResponse = flutterWaveService.verifyOpayPayment(opay.getTransactionId());
+        String verifyOpayPaymentResponse = flutterWaveService.verifyOpayPayment(opay.getPaymentId());
 
 
         Map<String, Object> response = new HashMap<>();
