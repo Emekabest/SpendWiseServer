@@ -6,10 +6,12 @@ import org.example.model.Transaction;
 import org.example.service.FlutterWaveService;
 import org.example.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -25,7 +27,7 @@ public class OpayController {
 
 
     @PostMapping({"/addfunds-opay"})
-    public String Request(@RequestBody Opay opay){
+    public ResponseEntity<?> Request(@RequestBody Opay opay){
         try {
             String transactionRef = UUID.randomUUID().toString();
 
@@ -42,9 +44,16 @@ public class OpayController {
 
             transactionService.add(transaction);
 
-
             opay.setTransactionRef(transactionRef);
-            return flutterWaveService.opayPayment(opay);
+
+            String responseData = flutterWaveService.opayPayment(opay);
+
+            return ResponseEntity.ok(
+                    Map.of(
+                            "responseData", responseData,
+                            "transactionRef", transactionRef
+                    )
+            );
         } catch (Exception e) {
 
             throw new RuntimeException(e);
