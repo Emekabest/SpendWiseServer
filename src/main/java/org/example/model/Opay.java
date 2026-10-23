@@ -6,13 +6,25 @@ public class Opay {
     private final int amount;
     private final String userEmail;
 
+    private String transactionId;
 
-    public Opay(String transactionRef, int amount, String userEmail){
+
+    public Opay(String transactionId,  String transactionRef, int amount, String userEmail){
+        this.transactionId = transactionId;
         this.transactionRef = transactionRef;
         this.amount = amount;
         this.userEmail = userEmail;
 
     }
+
+    public void setTransactionId(String transactionId){
+        this.transactionId = transactionId;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
 
     public void setTransactionRef(String transactionRef){
 
@@ -31,4 +43,8 @@ public class Opay {
 
         return userEmail;
     }
+
+
+
+
 }
