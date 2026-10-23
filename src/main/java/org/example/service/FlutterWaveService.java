@@ -36,5 +36,16 @@ public class FlutterWaveService {
     }
 
 
+    public String verifyOpayPayment(String transactionId){
+        RestClient restClient = RestClient.create();
+
+        String API = "https://api.flutterwave.com/v3/transactions/{id}/verify";
+        String response = restClient.get().uri(API, transactionId)
+                .header("Authorization", "Bearer " + this.FLW_SECRETKEY)
+                .retrieve()
+                .body(String.class);
+
+        return response;
+    }
 
 }
