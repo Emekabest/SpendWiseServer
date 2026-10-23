@@ -26,13 +26,12 @@ public class VerifyOpayTransactionController {
 
         String verifyOpayPaymentResponse = flutterWaveService.verifyOpayPayment(opay.getTransactionId());
 
-        System.out.println(verifyOpayPaymentResponse);
-
+        System.out.println("triggered...");
 
         Map<String, Object> response = new HashMap<>();
-        response.put("status", "...");
-        response.put("data", "{}");
-        response.put("message", "data is coming");
+        response.put("status","...");
+//        response.put("transactionStatus", verifyOpayPaymentResponse.data.status);
+//        response.put("message", verifyOpayPaymentResponse.data.processor_response);
 
         return ResponseEntity.ok(response);
     }
