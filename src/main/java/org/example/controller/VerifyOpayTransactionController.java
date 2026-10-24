@@ -1,6 +1,8 @@
 package org.example.controller;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.model.Opay;
 import org.example.service.FlutterWaveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +25,30 @@ public class VerifyOpayTransactionController {
     @PostMapping({"/verify-payment/opay"})
     public ResponseEntity<?> request(@RequestBody Opay opay){
 
+        try{
 
-        String verifyOpayPaymentResponse = flutterWaveService.verifyOpayPayment(opay.getPaymentId());
+            String verifyOpayPaymentResponse = flutterWaveService.verifyOpayPayment(opay.getPaymentId());
 
-        System.out.println("I came here ooo");
+            ObjectMapper mapper = new ObjectMapper();
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("data", verifyOpayPaymentResponse);
+            JsonNode root = mapper.readTree(verifyOpayPaymentResponse);
 
-        return ResponseEntity.ok(response);
+            JsonNode data = root.path("data");
+
+            String status = data.path("status").asText();
+
+            System.out.println("This is status::"+status);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("data", verifyOpayPaymentResponse);
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
 }
