@@ -49,7 +49,6 @@ public class WithdrawService {
         transaction.setTransactionRef(withdraw.getWithdrawTxnId());
         transaction.setUserEmail(withdraw.getEmail());
         transaction.setType("withdrawal");
-        transaction.setTitle("Withdrawal");
         transaction.setAmount(withdraw.getAmount());
         transaction.setTime(DateTime.getLocalDateTime());
         transaction.setPaymentStatus("pending");

@@ -19,7 +19,7 @@ public class WithdrawListener {
     }
 
     @EventListener
-    public void handleWithdrawEvent(WithdrawEvent event){
+    public void sendEmailEvent(WithdrawEvent event){
 
         Withdraw withdraw = event.getWithdraw();
 

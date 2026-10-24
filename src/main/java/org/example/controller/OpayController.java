@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
+
 public class OpayController {
 
 
@@ -24,27 +25,18 @@ public class OpayController {
     private FlutterWaveService flutterWaveService;
 
 
-    @PostMapping({"/addfunds-opay"})
-    public ResponseEntity<?> Request(@RequestBody Opay opay){
+    @PostMapping({"/initiate-payment/opay"})
+    public ResponseEntity<?> initiate(@RequestBody Opay opay){
         try {
             String transactionRef = UUID.randomUUID().toString();
 
 
-            Transaction transaction = new Transaction();
-
-            transaction.setTransactionRef(transactionRef);
-            transaction.setUserEmail(opay.getUserEmail());
-            transaction.setType("funding");
-            transaction.setTitle("Funding");
-            transaction.setAmount(opay.getAmount());
-            transaction.setTime(DateTime.getLocalDateTime());
-            transaction.setPaymentStatus("pending");
-
-            transactionService.add(transaction);
+            Transaction transaction = new Transaction(transactionRef, opay.getUserEmail(), "addfunds", opay.getAmount(), DateTime.getLocalDateTime(), "pending");
 
             opay.setTransactionRef(transactionRef);
-
             String responseData = flutterWaveService.opayPayment(opay);
+
+            transactionService.add(transaction);
 
             return ResponseEntity.ok(
                     Map.of(
@@ -65,7 +57,6 @@ public class OpayController {
             @RequestParam(required = false) String tx_ref,
             @RequestParam(required = false) String transaction_id
     ){
-
 
         System.out.println("Callback status: " + status);
         System.out.println("Transaction ref: " + tx_ref);

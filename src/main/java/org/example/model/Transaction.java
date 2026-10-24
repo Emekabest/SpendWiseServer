@@ -23,11 +23,20 @@ public class Transaction {
 
 
     private String type;
-    private String title;
     private int amount;
     private LocalDateTime time;
     private String paymentStatus;
     private String checkoutStatus;
+
+
+    public Transaction (String transactionRef, String userEmail, String type, int amount,  LocalDateTime time, String paymentStatus){
+        this.transactionRef = transactionRef;
+        this.userEmail = userEmail;
+        this.type = type;
+        this.amount = amount;
+        this.time = time;
+        this.paymentStatus = paymentStatus;
+    }
 
 
     public void setTransactionRef(String transactionRef) {
@@ -54,13 +63,6 @@ public class Transaction {
         return type;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getTitle() {
-        return title;
-    }
 
     public void setAmount(int amount) {
         this.amount = amount;

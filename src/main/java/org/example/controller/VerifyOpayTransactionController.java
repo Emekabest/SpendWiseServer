@@ -20,11 +20,12 @@ public class VerifyOpayTransactionController {
     private FlutterWaveService flutterWaveService;
 
 
-    @PostMapping({"/verify-opay"})
+    @PostMapping({"/verify-payment/opay"})
     public ResponseEntity<?> request(@RequestBody Opay opay){
 
 
         String verifyOpayPaymentResponse = flutterWaveService.verifyOpayPayment(opay.getPaymentId());
+
 
 
         Map<String, Object> response = new HashMap<>();
