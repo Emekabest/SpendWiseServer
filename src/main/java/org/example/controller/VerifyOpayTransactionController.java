@@ -25,29 +25,39 @@ public class VerifyOpayTransactionController {
     @PostMapping({"/verify-payment/opay"})
     public ResponseEntity<?> request(@RequestBody Opay opay){
 
+        Map<String, Object> response =  new HashMap<>();
+
         try{
+                String verifyOpayPaymentResponse = flutterWaveService.verifyOpayPayment(opay.getPaymentId());
+                ObjectMapper mapper = new ObjectMapper();
 
-            String verifyOpayPaymentResponse = flutterWaveService.verifyOpayPayment(opay.getPaymentId());
+                JsonNode root = mapper.readTree(verifyOpayPaymentResponse);
 
-            ObjectMapper mapper = new ObjectMapper();
+                JsonNode data = root.path("data");
 
-            JsonNode root = mapper.readTree(verifyOpayPaymentResponse);
+                String paymentStatus = data.path("status").asText();
 
-            JsonNode data = root.path("data");
+                if ("failed".equals(paymentStatus)){
 
-            String status = data.path("status").asText();
+                    response.put("payment_status", "failed");
 
-            System.out.println("This is status::"+status);
+                    return ResponseEntity.ok(response);
+                }
 
-            Map<String, Object> response = new HashMap<>();
-            response.put("data", verifyOpayPaymentResponse);
+                if ("successful".equals(paymentStatus)){
+
+                    response.put("payment_status", "successful");
+
+                    return ResponseEntity.ok(response);
+                }
+
+
+            response.put("payment_status", "pending");
 
             return ResponseEntity.ok(response);
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
 
     }
 
