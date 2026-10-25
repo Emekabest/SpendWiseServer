@@ -39,7 +39,8 @@ public class SecurityConfig {
                         "/signup",
                         "/refreshtoken",
                         "/checkuser",
-                        "/sendotp"
+                        "/sendotp",
+                        "/api/webhooks/flutterwave"
                 )
                 .permitAll()
                 .anyRequest()
