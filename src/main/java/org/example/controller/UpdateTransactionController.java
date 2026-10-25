@@ -18,7 +18,7 @@ public class UpdateTransactionController {
 
         try{
             System.out.println("ID::"+transaction.getId());
-            System.out.println("Status::"+transaction.getPaymentStatus());
+            System.out.println("Status::"+transaction.getStatus());
 
             transactionService.update(transaction);
 

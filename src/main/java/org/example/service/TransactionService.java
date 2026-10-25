@@ -31,7 +31,7 @@ public class TransactionService {
 
         if (transactionOptional.isPresent()){
             Transaction transaction = transactionOptional.get();
-            transaction.setPaymentStatus(updatedTransaction.getPaymentStatus());
+            transaction.setStatus(updatedTransaction.getStatus());
 
             transactionRepository.save(transaction);
         }

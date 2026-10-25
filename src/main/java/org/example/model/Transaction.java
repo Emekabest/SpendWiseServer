@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.enums.TransactionStatus;
 
 import java.time.LocalDateTime;
 
@@ -23,19 +24,24 @@ public class Transaction {
 
 
     private String type;
+
     private int amount;
     private LocalDateTime time;
-    private String paymentStatus;
+
+
+    @Enumerated(EnumType.STRING)
+    private TransactionStatus status;
+
     private String checkoutStatus;
 
 
-    public Transaction (String transactionRef, String userEmail, String type, int amount,  LocalDateTime time, String paymentStatus){
+    public Transaction (String transactionRef, String userEmail, String type, int amount,  LocalDateTime time, TransactionStatus status){
         this.transactionRef = transactionRef;
         this.userEmail = userEmail;
         this.type = type;
         this.amount = amount;
         this.time = time;
-        this.paymentStatus = paymentStatus;
+        this.status = status;
     }
 
 
@@ -80,12 +86,12 @@ public class Transaction {
         return time;
     }
 
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
+    public void setStatus(TransactionStatus status) {
+        this.status = status;
     }
 
-    public String getPaymentStatus() {
-        return paymentStatus;
+    public TransactionStatus getStatus() {
+        return status;
     }
 
     public void setCheckoutStatus(String checkoutStatus) {

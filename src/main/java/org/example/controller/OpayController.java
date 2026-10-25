@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.enums.TransactionStatus;
 import org.example.model.DateTime;
 import org.example.model.Opay;
 import org.example.model.Transaction;
@@ -31,7 +32,7 @@ public class OpayController {
             String transactionRef = UUID.randomUUID().toString();
 
 
-            Transaction transaction = new Transaction(transactionRef, opay.getUserEmail(), "addfunds", opay.getAmount(), DateTime.getLocalDateTime(), "pending");
+            Transaction transaction = new Transaction(transactionRef, opay.getUserEmail(), "addfunds", opay.getAmount(), DateTime.getLocalDateTime(), TransactionStatus.pending);
 
             opay.setTransactionRef(transactionRef);
             String responseData = flutterWaveService.opayPayment(opay);
