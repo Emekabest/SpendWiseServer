@@ -32,7 +32,7 @@ public class OpayController {
             String transactionRef = UUID.randomUUID().toString();
 
 
-            Transaction transaction = new Transaction(transactionRef, opay.getUserEmail(), "addfunds", opay.getAmount(), DateTime.getLocalDateTime(), TransactionStatus.pending);
+            Transaction transaction = new Transaction(transactionRef, opay.getUserEmail(), "add_funds", opay.getAmount(), DateTime.getLocalDateTime(), TransactionStatus.pending);
 
             opay.setTransactionRef(transactionRef);
             String responseData = flutterWaveService.opayPayment(opay);
