@@ -21,7 +21,7 @@ public class VerifyOtpController {
     }
 
 
-    @PostMapping({"/verifyotp"})
+    @PostMapping({"/api/v1/verifyotp"})
     public String verifyOtp(@RequestBody OtpRequest otpRequest){
 
         boolean isValid = otpService.verifyOtp(otpRequest.getEmail(), otpRequest.getOtp());
