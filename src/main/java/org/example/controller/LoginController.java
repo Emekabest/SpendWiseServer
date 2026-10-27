@@ -63,6 +63,7 @@ public class LoginController {
                     authResponse.setMessage("successful");
 
 
+                    response.put("status", 200);
                     response.put("access_token", authResponse.getAccessToken());
                     response.put("refresh_token", authResponse.getRefreshToken());
                     response.put("message", authResponse.getMessage());
