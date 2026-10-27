@@ -45,7 +45,6 @@ public class LoginController {
         try {
             Optional<User> userOptional = this.userService.get(loginReq.getEmail());
 
-
             if (userOptional.isEmpty()){
 
                 authResponse.setMessage("Invalid email or password");
@@ -71,6 +70,8 @@ public class LoginController {
                     return ResponseEntity.ok(response);
                 }
                 else{
+                    authResponse.setMessage("Invalid email or password");
+
                     response.put("status", 403);
                     response.put("message", authResponse.getMessage());
 
@@ -78,6 +79,7 @@ public class LoginController {
                 }
             }
         } catch (Exception e) {
+
 
             throw new IllegalArgumentException("An error occurred:: " + e.getMessage());
         }
