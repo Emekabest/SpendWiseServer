@@ -53,29 +53,29 @@ public class HomeService {
         }
 
 
-        if (budgetOptional.isPresent()){
-            Budget budget = budgetOptional.get();
+//        if (budgetOptional.isPresent()){
+//            Budget budget = budgetOptional.get();
+//
+//            if ("daily".equals(budget.getType())){
+//
+//                budget.setAccessAmountRestoration(1);
+//
+//            } else if ("weekly".equals(budget.getType())){
+//
+//                budget.setAccessAmountRestoration(7);
+//
+//            } else if ("monthly".equals(budget.getType())){
+//
+//                budget.setAccessAmountRestoration(30);
+//            }
+//
+//            budgetService.add(budget);
+//
+//            home.setBudget(budget);
+//        }
 
-            if ("daily".equals(budget.getType())){
 
-                budget.setAccessAmountRestoration(1);
-
-            } else if ("weekly".equals(budget.getType())){
-
-                budget.setAccessAmountRestoration(7);
-
-            } else if ("monthly".equals(budget.getType())){
-
-                budget.setAccessAmountRestoration(30);
-            }
-
-            budgetService.add(budget);
-
-            home.setBudget(budget);
-        }
-
-
-        home.setNotifications(notifications);
+//        home.setNotifications(notifications);
 
         return home;
     }

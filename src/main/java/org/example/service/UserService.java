@@ -42,6 +42,8 @@ public class UserService {
 
         return this.userRepository.findByEmail(email);
     }
+
+
     public User getUser(String email){
         User user = new User();
 
@@ -52,8 +54,6 @@ public class UserService {
             user = userOptional.get();
 
         }
-
-
 
         return user;
     }

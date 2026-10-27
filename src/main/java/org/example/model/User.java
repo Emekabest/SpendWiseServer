@@ -35,6 +35,34 @@ public class User implements UserDetails {
         return id;
     }
 
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
+    public String getPin() {
+        return pin;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.emptyList();
