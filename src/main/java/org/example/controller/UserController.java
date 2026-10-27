@@ -23,21 +23,18 @@ public class UserController {
 
         String email = authentication.getName();
 
-        System.out.println("This is my email::"+email);
-
-
         try{
             User user = userService.getUser(email);
-
 
             Map<String, Object> response =  new HashMap<>();
 
             response.put("status", 200);
-//            response.put("firstname", user.getFirstname());
-//            response.put("lastname", user.getLastname());
+            response.put("firstname", user.getFirstname());
+            response.put("lastname", user.getLastname());
 
             return ResponseEntity.ok(response);
-        } catch (Exception e) {
+        } catch (Exception e){
+
             throw new RuntimeException(e);
         }
 
