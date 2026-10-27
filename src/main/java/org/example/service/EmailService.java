@@ -17,8 +17,7 @@ public class EmailService {
     @Value("${resend.apikey}")
     private String resendApiKey;
 
-    private String emailSender = "onboarding@resend.dev";
-
+    private final String emailSender = "SpendWise <noreply@dimmaoguike.com>";
 
 
     public String sendEmail(MyEmail myEmail) throws IOException {
