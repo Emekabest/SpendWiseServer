@@ -20,9 +20,9 @@ public class TransactionService {
     }
 
 
-    public List<Transaction> get(String userEmail){
+    public List<Transaction> get(int userId){
 
-        return transactionRepository.findByUserEmail(userEmail);
+        return transactionRepository.findByUserId(userId);
     }
 
 

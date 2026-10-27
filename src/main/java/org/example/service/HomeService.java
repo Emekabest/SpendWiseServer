@@ -48,7 +48,6 @@ public class HomeService {
             user.setFirstname(userOptional.get().getFirstname());
             user.setLastname(userOptional.get().getLastname());
 
-            user.setBalance(userOptional.get().getBalance());
 
             home.setUser(user);
         }

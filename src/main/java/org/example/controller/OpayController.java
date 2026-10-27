@@ -4,17 +4,20 @@ import org.example.enums.TransactionStatus;
 import org.example.model.DateTime;
 import org.example.model.Opay;
 import org.example.model.Transaction;
+import org.example.model.User;
 import org.example.service.FlutterWaveService;
 import org.example.service.TransactionService;
+import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 import java.util.UUID;
 
 @RestController
-
 public class OpayController {
 
 
@@ -25,14 +28,19 @@ public class OpayController {
     @Autowired
     private FlutterWaveService flutterWaveService;
 
+    @Autowired
+    private UserService userService;
+
 
     @PostMapping({"/initiate-payment/opay"})
     public ResponseEntity<?> initiate(@RequestBody Opay opay){
         try {
             String transactionRef = UUID.randomUUID().toString();
 
+            User user = userService.getUser(opay.getUserEmail());
 
-            Transaction transaction = new Transaction(transactionRef, opay.getUserEmail(), "add_funds", opay.getAmount(), DateTime.getLocalDateTime(), TransactionStatus.pending);
+
+            Transaction transaction = new Transaction(transactionRef, user.getId(), "add_funds", opay.getAmount(), DateTime.getLocalDateTime(), TransactionStatus.pending);
 
             opay.setTransactionRef(transactionRef);
             String responseData = flutterWaveService.opayPayment(opay);
@@ -51,19 +59,5 @@ public class OpayController {
         }
     }
 
-
-    @GetMapping({"/opaypaymentcallback"})
-    public ResponseEntity<String> paymentCallback(
-            @RequestParam(required = false) String status,
-            @RequestParam(required = false) String tx_ref,
-            @RequestParam(required = false) String transaction_id
-    ){
-
-        System.out.println("Callback status: " + status);
-        System.out.println("Transaction ref: " + tx_ref);
-        System.out.println("Transaction ID: " + transaction_id);
-
-        return ResponseEntity.ok("Callback received");
-    }
 
 }

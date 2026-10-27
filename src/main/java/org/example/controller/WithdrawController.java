@@ -21,7 +21,7 @@ public class WithdrawController {
         try {
             withdrawService.add(withdraw);
 
-            withdrawService.updateAllBalance(withdraw);
+//            withdrawService.updateAllBalance(withdraw);
 
             return "Successful";
         } catch (Exception e) {

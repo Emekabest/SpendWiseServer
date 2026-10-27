@@ -20,8 +20,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String transactionRef;
-    private String userEmail;
-
+    private int userId;
 
     private String type;
 
@@ -35,9 +34,9 @@ public class Transaction {
     private String checkoutStatus;
 
 
-    public Transaction (String transactionRef, String userEmail, String type, int amount,  LocalDateTime time, TransactionStatus status){
+    public Transaction (String transactionRef, int userId, String type, int amount, LocalDateTime time, TransactionStatus status){
         this.transactionRef = transactionRef;
-        this.userEmail = userEmail;
+        this.userId = userId;
         this.type = type;
         this.amount = amount;
         this.time = time;
@@ -53,12 +52,12 @@ public class Transaction {
         return transactionRef;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public int getUserId() {
+        return userId;
     }
 
     public void setType(String type) {

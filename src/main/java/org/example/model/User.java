@@ -30,9 +30,10 @@ public class User implements UserDetails {
 
     private String pin;
 
-    private int balance;
 
-    private String role;
+    public int getId() {
+        return id;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

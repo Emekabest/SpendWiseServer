@@ -1,9 +1,10 @@
 package org.example.controller;
 
-import org.example.model.Budget;
 import org.example.model.DateTime;
 import org.example.model.Transaction;
+import org.example.model.User;
 import org.example.service.TransactionService;
+import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,9 @@ public class TransactionController {
 
     @Autowired
     private TransactionService transactionService;
+
+    @Autowired
+    private UserService userService;
 
 
     @PostMapping({"/transactions"})
@@ -37,7 +41,9 @@ public class TransactionController {
     public List<Transaction> getHistory(@RequestParam("email") String email){
 
         try{
-            return transactionService.get(email);
+            User user = userService.getUser(email);
+
+            return transactionService.get(user.getId());
 
         } catch (Exception e) {
             throw new RuntimeException(e);

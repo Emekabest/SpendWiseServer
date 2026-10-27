@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
 
-    List<Transaction> findByUserEmail(String userEmail);
+    List<Transaction> findByUserId(int userId);
 
     Optional<Transaction> findByTransactionRef(String transactionRef);
 

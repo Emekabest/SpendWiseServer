@@ -45,10 +45,11 @@ public class WithdrawService {
 
         withdrawRepository.save(withdraw);
 
+        User user = userService.getUser(withdraw.getEmail());
 
         Transaction transaction = new Transaction();
         transaction.setTransactionRef(withdraw.getWithdrawTxnId());
-        transaction.setUserEmail(withdraw.getEmail());
+        transaction.setUserId(user.getId());
         transaction.setType("withdrawal");
         transaction.setAmount(withdraw.getAmount());
         transaction.setTime(DateTime.getLocalDateTime());
@@ -71,17 +72,5 @@ public class WithdrawService {
         withdrawRepository.save(withdraw);
     }
 
-
-    public void updateAllBalance(Withdraw withdraw){
-        User user = userService.getUser(withdraw.getEmail());
-        Budget budget = budgetService.get(withdraw.getEmail());
-
-        user.setBalance(user.getBalance() - withdraw.getAmount());
-        budget.setAccessAmount(budget.getAccessAmount() - withdraw.getAmount());
-
-
-        userService.update(user);
-        budgetService.add(budget);
-    }
 
 }
