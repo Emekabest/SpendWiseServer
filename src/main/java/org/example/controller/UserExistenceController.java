@@ -28,7 +28,7 @@ public class UserExistenceController {
 
             if (!this.userService.isExistsByEmail(emailRequest.getEmail())){
 
-                signupFeedbackMessage =  "Successful";
+                signupFeedbackMessage =  "successful";
             } else {
 
                 signupFeedbackMessage =  "Email is already registered";
