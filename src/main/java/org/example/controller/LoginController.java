@@ -5,11 +5,14 @@ import org.example.model.User;
 import org.example.service.JwtService;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -36,8 +39,9 @@ public class LoginController {
 
 
     @PostMapping({"/api/v1/login"})
-    public AuthResponse Login(@RequestBody User loginReq){
-        System.out.println("Login Reached!!!!!!!!!");
+    public ResponseEntity<?> Login(@RequestBody User loginReq){
+        Map<String, Object> response =  new HashMap<>();
+
         try {
             Optional<User> userOptional = this.userService.get(loginReq.getEmail());
 
@@ -46,7 +50,11 @@ public class LoginController {
 
                 authResponse.setMessage("Invalid email or password");
 
-                return authResponse;
+
+                response.put("status", 403);
+                response.put("message", authResponse.getMessage());
+
+                return ResponseEntity.ok(response);
             } else {
                 User user = (User)userOptional.get();
                 if (passwordEncoder.matches(loginReq.getPin(),user.getPin())){
@@ -55,12 +63,18 @@ public class LoginController {
                     authResponse.setRefreshToken(jwtService.generateRefreshToken(user.getEmail()));
                     authResponse.setMessage("successful");
 
-                    return authResponse;
+
+                    response.put("access_token", authResponse.getAccessToken());
+                    response.put("refresh_token", authResponse.getRefreshToken());
+                    response.put("message", authResponse.getMessage());
+
+                    return ResponseEntity.ok(response);
                 }
                 else{
-                    authResponse.setMessage("Invalid email or password");
+                    response.put("status", 403);
+                    response.put("message", authResponse.getMessage());
 
-                    return authResponse;
+                    return ResponseEntity.ok(response);
                 }
             }
         } catch (Exception e) {
