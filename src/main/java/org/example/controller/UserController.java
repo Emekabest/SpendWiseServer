@@ -24,7 +24,7 @@ public class UserController {
         String email = authentication.getName();
 
         try{
-            User user = userService.getUser(email);
+            User user = userService.getUser(email);//
 
             Map<String, Object> response =  new HashMap<>();
 

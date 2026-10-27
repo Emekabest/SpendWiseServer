@@ -35,10 +35,12 @@ public class LoginController {
     }
 
 
-    @PostMapping({"/signin"})
-    public AuthResponse Login(@RequestBody User loginReq) {
+    @PostMapping({"/api/v1/login"})
+    public AuthResponse Login(@RequestBody User loginReq){
+        System.out.println("Login Reached!!!!!!!!!");
         try {
             Optional<User> userOptional = this.userService.get(loginReq.getEmail());
+
 
             if (userOptional.isEmpty()){
 
