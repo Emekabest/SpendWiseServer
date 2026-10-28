@@ -32,6 +32,7 @@ public class WalletController {
             Wallet wallet = walletService.get(userId);
 
             Map<String, Object> response =  new HashMap<>();
+            response.put("status", 200);
             response.put("total_balance", wallet.getTotalBalance());
             response.put("access_balance", wallet.getAccessBalance());
 
