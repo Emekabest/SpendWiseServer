@@ -27,14 +27,13 @@ public class CreateAccountController {
             String signupFeedbackMessage;
             if (!this.userService.isExistsByEmail(newUser.getEmail())){
                 this.userService.add(newUser);
+
                 signupFeedbackMessage = "Successful";
 
             } else {
                 signupFeedbackMessage = "Email is already registered";
 
             }
-
-
 
             return signupFeedbackMessage;
         } catch (Exception e) {

@@ -21,12 +21,10 @@ public class LoginController {
     private final JwtService jwtService;
 
     private final AuthResponse authResponse;
-    
 
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
 
 
     @Autowired
@@ -39,7 +37,7 @@ public class LoginController {
 
 
     @PostMapping({"/api/v1/login"})
-    public ResponseEntity<?> Login(@RequestBody User loginReq){
+    public ResponseEntity<?> login(@RequestBody User loginReq){
         Map<String, Object> response =  new HashMap<>();
 
         try {
@@ -48,7 +46,6 @@ public class LoginController {
             if (userOptional.isEmpty()){
 
                 authResponse.setMessage("Invalid email or password");
-
 
                 response.put("status", 403);
                 response.put("message", authResponse.getMessage());
@@ -61,7 +58,6 @@ public class LoginController {
                     authResponse.setAccessToken(jwtService.generateAccessToken(user.getEmail()));
                     authResponse.setRefreshToken(jwtService.generateRefreshToken(user.getEmail()));
                     authResponse.setMessage("successful");
-
 
                     response.put("status", 200);
                     response.put("access_token", authResponse.getAccessToken());
@@ -80,7 +76,6 @@ public class LoginController {
                 }
             }
         } catch (Exception e) {
-
 
             throw new IllegalArgumentException("An error occurred:: " + e.getMessage());
         }

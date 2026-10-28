@@ -1,10 +1,11 @@
 package org.example.service;
 
 
-import org.example.model.Budget;
+import org.example.event.CreateAccountEvent;
 import org.example.model.User;
 import org.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,21 +20,26 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private final ApplicationEventPublisher publisher;
 
 
     @Autowired
-    public UserService(UserRepository userRepository){
+    public UserService(UserRepository userRepository, ApplicationEventPublisher publisher){
         this.userRepository = userRepository;
+        this.publisher = publisher;
     }
+
+
 
 
 
     public void add(User user) {
         String hashedPin = passwordEncoder.encode(user.getPin());
 
-
         user.setPin(hashedPin);
         this.userRepository.save(user);
+
+        publisher.publishEvent(new CreateAccountEvent(user));
     }
 
 
