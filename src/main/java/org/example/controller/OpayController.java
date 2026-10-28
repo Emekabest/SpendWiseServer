@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.enums.TransactionStatus;
+import org.example.enums.TransactionType;
 import org.example.model.DateTime;
 import org.example.model.Opay;
 import org.example.model.Transaction;
@@ -10,6 +11,7 @@ import org.example.service.TransactionService;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,15 +34,16 @@ public class OpayController {
     private UserService userService;
 
 
-    @PostMapping({"/initiate-payment/opay"})
-    public ResponseEntity<?> initiate(@RequestBody Opay opay){
+    @PostMapping({"/api/v1/initiate-payment/opay"})
+    public ResponseEntity<?> initiate(@RequestBody Opay opay, Authentication authentication){
         try {
+            String userEmail = authentication.getName();
+
             String transactionRef = UUID.randomUUID().toString();
 
-            User user = userService.getUser(opay.getUserEmail());
+            User user = userService.getUser(userEmail);
 
-
-            Transaction transaction = new Transaction(transactionRef, user.getId(), "add_funds", opay.getAmount(), DateTime.getLocalDateTime(), TransactionStatus.pending);
+            Transaction transaction = new Transaction(transactionRef, user.getId(), TransactionType.add_funds, opay.getAmount(), DateTime.getLocalDateTime(), TransactionStatus.pending);
 
             opay.setTransactionRef(transactionRef);
             String responseData = flutterWaveService.opayPayment(opay);

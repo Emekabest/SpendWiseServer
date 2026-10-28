@@ -69,7 +69,6 @@ public class VerifyOpayTransactionController {
                 return ResponseEntity.ok(response);
             }
 
-
             response.put("payment_status", TransactionStatus.pending);
 
             return ResponseEntity.ok(response);

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.enums.TransactionStatus;
+import org.example.enums.TransactionType;
 
 import java.time.LocalDateTime;
 
@@ -22,7 +23,8 @@ public class Transaction {
     private String transactionRef;
     private int userId;
 
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private TransactionType type;
 
     private int amount;
     private LocalDateTime time;
@@ -34,7 +36,7 @@ public class Transaction {
     private String checkoutStatus;
 
 
-    public Transaction (String transactionRef, int userId, String type, int amount, LocalDateTime time, TransactionStatus status){
+    public Transaction (String transactionRef, int userId, TransactionType type, int amount, LocalDateTime time, TransactionStatus status){
         this.transactionRef = transactionRef;
         this.userId = userId;
         this.type = type;
@@ -60,11 +62,11 @@ public class Transaction {
         return userId;
     }
 
-    public void setType(String type) {
+    public void setType(TransactionType type) {
         this.type = type;
     }
 
-    public String getType() {
+    public TransactionType getType() {
         return type;
     }
 

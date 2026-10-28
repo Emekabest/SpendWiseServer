@@ -1,6 +1,7 @@
 package org.example.service;
 
 import org.example.enums.TransactionStatus;
+import org.example.enums.TransactionType;
 import org.example.event.WithdrawEvent;
 import org.example.model.DateTime;
 import org.example.model.*;
@@ -50,7 +51,7 @@ public class WithdrawService {
         Transaction transaction = new Transaction();
         transaction.setTransactionRef(withdraw.getWithdrawTxnId());
         transaction.setUserId(user.getId());
-        transaction.setType("withdrawal");
+        transaction.setType(TransactionType.withdrawal);
         transaction.setAmount(withdraw.getAmount());
         transaction.setTime(DateTime.getLocalDateTime());
         transaction.setStatus(TransactionStatus.pending);
