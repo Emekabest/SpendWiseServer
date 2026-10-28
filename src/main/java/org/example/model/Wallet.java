@@ -23,6 +23,11 @@ public class Wallet {
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal accessBalance;
 
+    public Wallet(){
+
+
+    }
+
     public Wallet (int userId, BigDecimal totalBalance, BigDecimal accessBalance){
 
         this.userId = userId;

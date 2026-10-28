@@ -21,10 +21,10 @@ public class UserController {
     @GetMapping({"/api/v1/users/me"})
     public ResponseEntity<?> user(Authentication authentication){
 
-        String email = authentication.getName();
+        String userEmail = authentication.getName();
 
         try{
-            User user = userService.getUser(email);//
+            User user = userService.getUser(userEmail);//
 
             Map<String, Object> response =  new HashMap<>();
 

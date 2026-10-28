@@ -32,7 +32,6 @@ public class CreateAccountListener{
             Wallet wallet = new Wallet(newUser.getId(), new BigDecimal("0.00"), new BigDecimal("0.00"));
 
             walletService.add(wallet);
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
