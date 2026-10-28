@@ -16,7 +16,7 @@ public class FlutterWaveService {
     private String FLW_SECRETKEY;
 
 
-    public String opayPayment(Opay opay){
+    public String opayPayment(Opay opay, String userEmail){
         RestClient restClient = RestClient.create();
 
         String response = restClient.post().uri("https://api.flutterwave.com/v3/charges?type=opay")
@@ -24,7 +24,7 @@ public class FlutterWaveService {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Map.of(
                         "amount", opay.getAmount(),
-                        "email", opay.getUserEmail(),
+                        "email", userEmail,
                         "tx_ref", opay.getTransactionRef(),
                         "currency", "NGN",
                         "redirect_url", "https://spendwiseserver.up.railway.app/opaypaymentcallback"
