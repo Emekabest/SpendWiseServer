@@ -4,6 +4,8 @@ import org.example.model.Withdraw;
 import org.example.service.FlutterWaveService;
 import org.example.service.WithdrawService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +23,7 @@ public class WithdrawController {
     private FlutterWaveService flutterWaveService;
 
     @PostMapping({"/api/v1/withdraw"})
-    public String withdraw(@RequestBody Withdraw withdraw){//
+    public String withdraw(@RequestBody Withdraw withdraw){
 
         try {
             String transactionRef = UUID.randomUUID().toString();
@@ -42,4 +44,13 @@ public class WithdrawController {
         }
 
     }
+
+    @GetMapping("/test-fixie")
+    public ResponseEntity<?> testFixie() {
+        return ResponseEntity.ok(
+                flutterWaveService.testFixie()
+        );
+    }
+
+
 }

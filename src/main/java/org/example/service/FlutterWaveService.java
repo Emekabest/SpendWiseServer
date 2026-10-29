@@ -16,6 +16,7 @@ public class FlutterWaveService {
     @Value("${flw.secret.key}")
     private String FLW_SECRETKEY;
 
+
     private final RestClient transferRestClient;
 
     public FlutterWaveService(@Qualifier("flutterwaveRestClient") RestClient restClient ){
@@ -71,6 +72,13 @@ public class FlutterWaveService {
         System.out.println("This is response::"+response);
 
         return response;
+    }
+
+    public String testFixie() {
+        return transferRestClient.get()
+                .uri("https://api.ipify.org")
+                .retrieve()
+                .body(String.class);
     }
 
 }
