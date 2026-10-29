@@ -38,7 +38,6 @@ public class FlutterWaveService {
 
 
 
-
     public String transfer(String accountNumber, String bank, int amount, String transactionRef){
         RestClient restClient = RestClient.create();
 
