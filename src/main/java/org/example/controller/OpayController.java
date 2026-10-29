@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.UUID;
 
@@ -43,7 +44,7 @@ public class OpayController {
 
             User user = userService.getUser(userEmail);
 
-            Transaction transaction = new Transaction(transactionRef, user.getId(), TransactionType.add_funds, opay.getAmount(), DateTime.getLocalDateTime(), TransactionStatus.pending);
+            Transaction transaction = new Transaction(transactionRef, user.getId(), TransactionType.add_funds, BigDecimal.valueOf(opay.getAmount()), DateTime.getLocalDateTime(), TransactionStatus.pending);
 
             opay.setTransactionRef(transactionRef);
             String responseData = flutterWaveService.opayPayment(opay, userEmail);

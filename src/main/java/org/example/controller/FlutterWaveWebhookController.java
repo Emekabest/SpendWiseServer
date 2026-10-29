@@ -2,6 +2,10 @@ package org.example.controller;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.example.enums.TransactionStatus;
+import org.example.service.TransactionService;
+import org.example.service.WalletService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +18,12 @@ public class FlutterWaveWebhookController {
 
     @Value("${flw.webhook.secret.hash}")
     private String webhookSecretHash;
+
+    @Autowired
+    private WalletService walletService;
+
+    @Autowired
+    private TransactionService transactionService;
 
 
     @PostMapping({"/api/webhooks/flutterwave"})
@@ -37,12 +47,21 @@ public class FlutterWaveWebhookController {
 
         JsonNode data = payload.path("data");
 
-        String txRef = data.path("tx_ref").asText();
+        String transactionRef = data.path("tx_ref").asText();
         String status = data.path("status").asText();
 
-        System.out.println("Webhook event: " + event);
-        System.out.println("Transaction reference: " + txRef);
-        System.out.println("Payment status: " + status);
+
+
+        if (TransactionStatus.successful.name().equals(status)){
+
+             walletService.updateTotalBalance(transactionRef);
+
+        }
+
+
+
+
+
 
 
         return ResponseEntity.ok().build();

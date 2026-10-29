@@ -52,7 +52,7 @@ public class WithdrawService {
         transaction.setTransactionRef(withdraw.getWithdrawTxnId());
         transaction.setUserId(user.getId());
         transaction.setType(TransactionType.withdrawal);
-        transaction.setAmount(withdraw.getAmount());
+//        transaction.setAmount(withdraw.getAmount());
         transaction.setTime(DateTime.getLocalDateTime());
         transaction.setStatus(TransactionStatus.pending);
 

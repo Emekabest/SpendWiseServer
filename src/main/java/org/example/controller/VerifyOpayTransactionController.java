@@ -1,13 +1,12 @@
 package org.example.controller;
 
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.enums.TransactionStatus;
 import org.example.model.Opay;
 import org.example.model.Transaction;
 import org.example.service.FlutterWaveService;
 import org.example.service.TransactionService;
+import org.example.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +26,9 @@ public class VerifyOpayTransactionController {
     @Autowired
     private TransactionService transactionService;
 
+    @Autowired
+    private WalletService walletService;
+
 
     @PostMapping({"/verify-payment/opay"})
     public ResponseEntity<?> request(@RequestBody Opay opay){
@@ -34,40 +36,23 @@ public class VerifyOpayTransactionController {
         Map<String, Object> response =  new HashMap<>();
 
         try{
-            String verifyOpayPaymentResponse = flutterWaveService.verifyOpayPayment(opay.getPaymentId());
-            ObjectMapper mapper = new ObjectMapper();
+            Transaction transaction = transactionService.get(opay.getTransactionRef());
 
-            JsonNode root = mapper.readTree(verifyOpayPaymentResponse);
+            TransactionStatus paymentStatus = transaction.getStatus();
 
-            JsonNode data = root.path("data");
-
-            String paymentStatus = data.path("status").asText();
-
-
-            if (TransactionStatus.failed.toString().equals(paymentStatus)){
-
-                Transaction updatedTransaction = new Transaction();
-                updatedTransaction.setTransactionRef(opay.getTransactionRef());
-                updatedTransaction.setStatus(TransactionStatus.failed);
-
-                transactionService.update(updatedTransaction);
+            if (TransactionStatus.failed.equals(paymentStatus)){
 
                 response.put("payment_status", TransactionStatus.failed);
                 return ResponseEntity.ok(response);
             }
 
-            if (TransactionStatus.successful.toString().equals(paymentStatus)){
-
-                Transaction updatedTransaction = new Transaction();
-                updatedTransaction.setTransactionRef(opay.getTransactionRef());
-                updatedTransaction.setStatus(TransactionStatus.successful);
-
-                transactionService.update(updatedTransaction);
+            if (TransactionStatus.successful.equals(paymentStatus)){
 
                 response.put("payment_status", TransactionStatus.successful);
 
                 return ResponseEntity.ok(response);
             }
+
 
             response.put("payment_status", TransactionStatus.pending);
 

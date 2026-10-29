@@ -19,22 +19,32 @@ public class TransactionService {
         transactionRepository.save(transaction);
     }
 
+    public Transaction get(String transactionRef){
 
-    public List<Transaction> get(int userId){
+        Transaction transaction = new Transaction();
+
+        Optional<Transaction> transactionOptional = transactionRepository.findByTransactionRef(transactionRef);
+        if (transactionOptional.isPresent()){
+            transaction = transactionOptional.get();
+
+        }
+
+        return transaction;
+    }
+
+
+    public List<Transaction> getAll(int userId){
 
         return transactionRepository.findByUserId(userId);
     }
 
 
     public void update(Transaction updatedTransaction){
-        Optional<Transaction> transactionOptional = transactionRepository.findByTransactionRef(updatedTransaction.getTransactionRef());
 
-        if (transactionOptional.isPresent()){
-            Transaction transaction = transactionOptional.get();
+            Transaction transaction = this.get(updatedTransaction.getTransactionRef());
             transaction.setStatus(updatedTransaction.getStatus());
 
             transactionRepository.save(transaction);
-        }
     }
 
 }

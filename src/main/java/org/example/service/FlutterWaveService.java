@@ -26,8 +26,7 @@ public class FlutterWaveService {
                         "amount", opay.getAmount(),
                         "email", userEmail,
                         "tx_ref", opay.getTransactionRef(),
-                        "currency", "NGN",
-                        "redirect_url", "https://spendwiseserver.up.railway.app/opaypaymentcallback"
+                        "currency", "NGN"
                 ))
                 .retrieve()
                 .body(String.class);

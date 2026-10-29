@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.example.enums.TransactionStatus;
 import org.example.enums.TransactionType;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
@@ -26,7 +27,10 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
-    private int amount;
+
+    @Column(nullable = false, precision = 19, scale = 2)
+    private BigDecimal amount;
+
     private LocalDateTime time;
 
 
@@ -36,7 +40,7 @@ public class Transaction {
     private String checkoutStatus;
 
 
-    public Transaction (String transactionRef, int userId, TransactionType type, int amount, LocalDateTime time, TransactionStatus status){
+    public Transaction (String transactionRef, int userId, TransactionType type, BigDecimal amount, LocalDateTime time, TransactionStatus status){
         this.transactionRef = transactionRef;
         this.userId = userId;
         this.type = type;
@@ -71,11 +75,11 @@ public class Transaction {
     }
 
 
-    public void setAmount(int amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
-    public int getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 

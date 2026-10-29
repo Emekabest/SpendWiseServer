@@ -43,7 +43,7 @@ public class TransactionController {
         try{
             User user = userService.getUser(email);
 
-            return transactionService.get(user.getId());
+            return transactionService.getAll(user.getId());
 
         } catch (Exception e) {
             throw new RuntimeException(e);
