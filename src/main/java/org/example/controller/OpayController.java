@@ -59,6 +59,7 @@ public class OpayController {
             );
         } catch (Exception e) {
 
+            System.out.println("Error message::"+e.getMessage());
             throw new RuntimeException(e);
         }
     }
