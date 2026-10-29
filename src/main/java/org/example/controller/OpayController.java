@@ -44,6 +44,7 @@ public class OpayController {
 
             User user = userService.getUser(userEmail);
 
+            System.out.println("My name is " + userEmail + " And i want to pay " + " Amount::" + BigDecimal.valueOf(opay.getAmount()));
             Transaction transaction = new Transaction(transactionRef, user.getId(), TransactionType.add_funds, BigDecimal.valueOf(opay.getAmount()), DateTime.getLocalDateTime(), TransactionStatus.pending);
 
             opay.setTransactionRef(transactionRef);
