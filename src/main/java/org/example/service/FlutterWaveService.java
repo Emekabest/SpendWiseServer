@@ -53,6 +53,7 @@ public class FlutterWaveService {
         String response = transferRestClient.post().uri("https://api.flutterwave.com/v3/transfers")
                 .header("Authorization", "Bearer " + FLW_SECRETKEY)
                 .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
                 .body(Map.of(
                     "account_bank", bank,
                     "account_number", accountNumber,
