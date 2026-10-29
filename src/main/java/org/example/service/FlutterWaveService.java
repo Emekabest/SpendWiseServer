@@ -1,6 +1,7 @@
 package org.example.service;
 
 import org.example.model.Opay;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,15 @@ public class FlutterWaveService {
 
     @Value("${flw.secret.key}")
     private String FLW_SECRETKEY;
+
+    private final RestClient transferRestClient;
+
+    public FlutterWaveService(@Qualifier("flutterwaveRestClient") RestClient restClient ){
+
+        this.transferRestClient = restClient;
+
+    }
+
 
 
     public String opayPayment(Opay opay, String userEmail){
@@ -39,9 +49,8 @@ public class FlutterWaveService {
 
 
     public String transfer(String accountNumber, String bank, int amount, String transactionRef){
-        RestClient restClient = RestClient.create();
 
-        String response = restClient.post().uri("https://api.flutterwave.com/v3/transfers")
+        String response = transferRestClient.post().uri("https://api.flutterwave.com/v3/transfers")
                 .header("Authorization", "Bearer " + FLW_SECRETKEY)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Map.of(
