@@ -32,7 +32,7 @@ public class WithdrawListener {
                     "Bank Name: " + "\n" +
                     "Account Name: " +  "\n" +
                     "Amount: " + "\n" +
-                    "ID: " + withdraw.getId();
+                    "ID: " + withdraw.getId()
             );
             myEmail.setTo("oguikejosephchukwuemeka@gmail.com");
 
