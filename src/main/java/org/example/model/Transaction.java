@@ -21,7 +21,10 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(unique = true,nullable = false)
     private String transactionRef;
+
     private int userId;
 
     @Enumerated(EnumType.STRING)
@@ -33,11 +36,8 @@ public class Transaction {
 
     private LocalDateTime time;
 
-
     @Enumerated(EnumType.STRING)
     private TransactionStatus status;
-
-    private String checkoutStatus;
 
 
     public Transaction (String transactionRef, int userId, TransactionType type, BigDecimal amount, LocalDateTime time, TransactionStatus status){
@@ -97,13 +97,5 @@ public class Transaction {
 
     public TransactionStatus getStatus() {
         return status;
-    }
-
-    public void setCheckoutStatus(String checkoutStatus) {
-        this.checkoutStatus = checkoutStatus;
-    }
-
-    public String getCheckoutStatus() {
-        return checkoutStatus;
     }
 }

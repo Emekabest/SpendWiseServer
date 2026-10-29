@@ -3,6 +3,7 @@ package org.example.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.example.enums.TransactionStatus;
+import org.example.model.Transaction;
 import org.example.service.TransactionService;
 import org.example.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,41 +31,57 @@ public class FlutterWaveWebhookController {
     public ResponseEntity<?> handleWebhook(@RequestHeader(value = "verif-hash", required = false)
                                            String signature, @RequestBody JsonNode payload  ){
 
-        // 1. Authenticate the webhook
-        if (signature == null ||
-                !java.security.MessageDigest.isEqual(
-                        signature.getBytes(java.nio.charset.StandardCharsets.UTF_8),
-                        webhookSecretHash.getBytes(java.nio.charset.StandardCharsets.UTF_8))) {
+        try {
+
+
+            // 1. Authenticate the webhook
+            if (signature == null ||
+                    !java.security.MessageDigest.isEqual(
+                            signature.getBytes(java.nio.charset.StandardCharsets.UTF_8),
+                            webhookSecretHash.getBytes(java.nio.charset.StandardCharsets.UTF_8))) {
+
+
+                return ResponseEntity.status(401).build();
+            }
+
+
+            String event = payload.path("event").asText();
+
+            JsonNode data = payload.path("data");
+
+            String transactionRef = data.path("tx_ref").asText();
+            String status = data.path("status").asText();
 
 
 
-            return ResponseEntity.status(401).build();
+
+            if (TransactionStatus.successful.name().equals(status)){
+                //Fund User Wallet
+                walletService.updateTotalBalance(transactionRef);
+
+                Transaction transaction = new Transaction();
+                transaction.setTransactionRef(transactionRef);
+                transaction.setStatus(TransactionStatus.successful);
+
+                transactionService.update(transaction);
+
+            } else if (TransactionStatus.failed.name().equals(status)){
+
+                Transaction transaction = new Transaction();
+                transaction.setTransactionRef(transactionRef);
+                transaction.setStatus(TransactionStatus.failed);
+
+                transactionService.update(transaction);
+            }
+
+
+            return ResponseEntity.ok().build();
+
+        } catch (Exception e) {
+
+
+            throw new RuntimeException(e);
         }
-
-
-        // 2. Read the event
-        String event = payload.path("event").asText();
-
-        JsonNode data = payload.path("data");
-
-        String transactionRef = data.path("tx_ref").asText();
-        String status = data.path("status").asText();
-
-
-
-        if (TransactionStatus.successful.name().equals(status)){
-
-             walletService.updateTotalBalance(transactionRef);
-
-        }
-
-
-
-
-
-
-
-        return ResponseEntity.ok().build();
     }
 
 }

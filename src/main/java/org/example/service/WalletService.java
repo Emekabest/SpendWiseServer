@@ -55,28 +55,17 @@ public class WalletService {
 
             BigDecimal totalBalance = wallet.getTotalBalance();
 
+
+            //add_funds
             if (TransactionType.add_funds.name().equals(transactionType.name())){
                  BigDecimal newTotalBalance = totalBalance.add(transactionAmount);
 
                  wallet.setTotalBalance(newTotalBalance);
 
                  walletRepository.save(wallet);
-
-                 transaction.setStatus(TransactionStatus.successful);
-                 transactionService.update(transaction);
             }
 
-
-
-
-
         }
-
     }
-
-
-
-
-
 
 }
