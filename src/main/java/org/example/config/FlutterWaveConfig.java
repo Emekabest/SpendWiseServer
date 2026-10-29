@@ -21,7 +21,7 @@ public class FlutterWaveConfig {
 
     @Bean("flutterwaveRestClient")
     public RestClient flutterWaveRestClient(
-            @Value("${fixie.url}") String fixieUrl) {
+            @Value("${FIXIE_URL}") String fixieUrl) {
 
         URI uri = URI.create(fixieUrl);
 
