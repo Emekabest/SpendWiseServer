@@ -37,14 +37,29 @@ public class FlutterWaveService {
     }
 
 
-    public String verifyOpayPayment(String transactionId){
+
+
+    public String transfer(String accountNumber, String bank, int amount, String transactionRef){
         RestClient restClient = RestClient.create();
 
-        String API = "https://api.flutterwave.com/v3/transactions/{id}/verify";
-        String response = restClient.get().uri(API, transactionId)
-                .header("Authorization", "Bearer " + this.FLW_SECRETKEY)
+        String response = restClient.post().uri("https://api.flutterwave.com/v3/transfers")
+                .header("Authorization", "Bearer " + FLW_SECRETKEY)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Map.of(
+                    "account_bank", bank,
+                    "account_number", accountNumber,
+                    "amount", amount,
+                    "currency", "NGN",
+                    "debit_currency", "NGN",
+                    "beneficiary_name", "SpendWise",
+                    "reference", transactionRef,
+                    "narration", "SpendWise Withdraw"
+                ))
                 .retrieve()
                 .body(String.class);
+
+
+        System.out.println("This is response::"+response);
 
         return response;
     }

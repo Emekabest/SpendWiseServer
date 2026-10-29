@@ -27,12 +27,12 @@ public class WithdrawListener {
             MyEmail myEmail = new MyEmail();
             myEmail.setFrom("onboarding@resend.dev");
             myEmail.setSubject("Request To Withdraw");
-            myEmail.setMessage("A withdrawal request from " + withdraw.getEmail() +"\n" +
+            myEmail.setMessage("A withdrawal request from " +"\n" +
                     "Account Number: " + withdraw.getAccountNumber() + "\n" +
-                    "Bank Name: " + withdraw.getBankName() + "\n" +
-                    "Account Name: " + withdraw.getAccountName() + "\n" +
-                    "Amount: " + withdraw.getAmount() + "\n" +
-                    "ID: " + withdraw.getId()
+                    "Bank Name: " + "\n" +
+                    "Account Name: " +  "\n" +
+                    "Amount: " + "\n" +
+                    "ID: " + withdraw.getId();
             );
             myEmail.setTo("oguikejosephchukwuemeka@gmail.com");
 

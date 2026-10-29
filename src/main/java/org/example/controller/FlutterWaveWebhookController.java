@@ -65,7 +65,7 @@ public class FlutterWaveWebhookController {
 
                 transactionService.update(transaction);
 
-            } else if (TransactionStatus.failed.name().equals(status)){
+            } else if(TransactionStatus.failed.name().equals(status)){
 
                 Transaction transaction = new Transaction();
                 transaction.setTransactionRef(transactionRef);
@@ -73,7 +73,6 @@ public class FlutterWaveWebhookController {
 
                 transactionService.update(transaction);
             }
-
 
             return ResponseEntity.ok().build();
 

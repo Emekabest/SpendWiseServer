@@ -46,11 +46,11 @@ public class WithdrawService {
 
         withdrawRepository.save(withdraw);
 
-        User user = userService.getUser(withdraw.getEmail());
+//        User user = userService.getUser(withdraw.getEmail());
 
         Transaction transaction = new Transaction();
-        transaction.setTransactionRef(withdraw.getWithdrawTxnId());
-        transaction.setUserId(user.getId());
+//        transaction.setTransactionRef(withdraw.getWithdrawTxnId());
+//        transaction.setUserId(user.getId());
         transaction.setType(TransactionType.withdrawal);
 //        transaction.setAmount(withdraw.getAmount());
         transaction.setTime(DateTime.getLocalDateTime());
@@ -59,7 +59,7 @@ public class WithdrawService {
         transactionService.add(transaction);
 
 
-        publisher.publishEvent(new WithdrawEvent(withdraw));
+//        publisher.publishEvent(new WithdrawEvent(withdraw));
     }
 
 
