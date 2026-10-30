@@ -58,7 +58,8 @@ public class FlutterWaveService {
                         "amount", amount,
                         "email", userEmail,
                         "currency", "NGN",
-                        "tx_ref", transactionRef
+                        "tx_ref", transactionRef,
+                        "bank_code", "044"
                 ))
                 .retrieve()
                 .body(String.class);
