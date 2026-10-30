@@ -48,17 +48,17 @@ public class FlutterWaveService {
     }
 
 
-    public String bankTransferPayment(int amount){
+    public String bankTransferPayment(String userEmail, int amount, String transactionRef){
         RestClient restClient = RestClient.create();
 
         String response = restClient.post().uri("https://api.flutterwave.com/v3/charges?type=bank_transfer")
                 .header("Authorization", "Bearer " + FLW_SECRETKEY)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Map.of(
-                        "amount", "",
-                        "email", "",
+                        "amount", amount,
+                        "email", userEmail,
                         "currency", "NGN",
-                        "tx_ref", ""
+                        "tx_ref", transactionRef
                 ))
                 .retrieve()
                 .body(String.class);
