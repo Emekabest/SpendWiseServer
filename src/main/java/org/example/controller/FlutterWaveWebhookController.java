@@ -45,6 +45,7 @@ public class FlutterWaveWebhookController {
             }
 
 
+
             String event = payload.path("event").asText();
 
             JsonNode data = payload.path("data");
@@ -52,6 +53,7 @@ public class FlutterWaveWebhookController {
             String transactionRef = data.path("tx_ref").asText();
             String status = data.path("status").asText();
 
+            System.out.println("Triggered::"+transactionRef + " " + status);
 
 
 
