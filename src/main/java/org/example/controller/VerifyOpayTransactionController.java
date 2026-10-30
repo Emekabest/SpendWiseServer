@@ -2,7 +2,7 @@ package org.example.controller;
 
 
 import org.example.enums.TransactionStatus;
-import org.example.model.Opay;
+import org.example.model.PaymentMethod;
 import org.example.model.Transaction;
 import org.example.service.FlutterWaveService;
 import org.example.service.TransactionService;
@@ -31,12 +31,12 @@ public class VerifyOpayTransactionController {
 
 
     @PostMapping({"/verify-payment/opay"})
-    public ResponseEntity<?> request(@RequestBody Opay opay){
+    public ResponseEntity<?> request(@RequestBody PaymentMethod paymentMethod){
 
         Map<String, Object> response =  new HashMap<>();
 
         try{
-            Transaction transaction = transactionService.get(opay.getTransactionRef());
+            Transaction transaction = transactionService.get(paymentMethod.getTransactionRef());
 
             TransactionStatus paymentStatus = transaction.getStatus();
 

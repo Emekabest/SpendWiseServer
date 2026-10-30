@@ -1,6 +1,6 @@
 package org.example.model;
 
-public class Opay {
+public class PaymentMethod {
 
     private String transactionRef;
     private final int amount;
@@ -9,7 +9,7 @@ public class Opay {
     private String paymentId;
 
 
-    public Opay(String paymentId, String transactionRef, int amount, String userEmail){
+    public PaymentMethod(String paymentId, String transactionRef, int amount, String userEmail){
         this.paymentId = paymentId;
         this.transactionRef = transactionRef;
         this.amount = amount;

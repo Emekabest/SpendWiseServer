@@ -1,6 +1,6 @@
 package org.example.service;
 
-import org.example.model.Opay;
+import org.example.model.PaymentMethod;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -27,18 +27,38 @@ public class FlutterWaveService {
 
 
 
-    public String opayPayment(Opay opay, String userEmail){
+    public String opayPayment(PaymentMethod paymentMethod, String userEmail){
         RestClient restClient = RestClient.create();
 
         String response = restClient.post().uri("https://api.flutterwave.com/v3/charges?type=opay")
                 .header("Authorization", "Bearer " + FLW_SECRETKEY)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Map.of(
-                        "amount", opay.getAmount(),
+                        "amount", paymentMethod.getAmount(),
                         "email", userEmail,
-                        "tx_ref", opay.getTransactionRef(),
+                        "tx_ref", paymentMethod.getTransactionRef(),
                         "currency", "NGN",
                         "redirect_url", "https://spendwiseserver.up.railway.app/opaypaymentcallback"
+                ))
+                .retrieve()
+                .body(String.class);
+
+
+        return response;
+    }
+
+
+    public String bankTransferPayment(int amount){
+        RestClient restClient = RestClient.create();
+
+        String response = restClient.post().uri("https://api.flutterwave.com/v3/charges?type=bank_transfer")
+                .header("Authorization", "Bearer " + FLW_SECRETKEY)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Map.of(
+                        "amount", "",
+                        "email", "",
+                        "currency", "NGN",
+                        "tx_ref", ""
                 ))
                 .retrieve()
                 .body(String.class);

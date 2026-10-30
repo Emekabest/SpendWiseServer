@@ -3,7 +3,7 @@ package org.example.controller;
 import org.example.enums.TransactionStatus;
 import org.example.enums.TransactionType;
 import org.example.model.DateTime;
-import org.example.model.Opay;
+import org.example.model.PaymentMethod;
 import org.example.model.Transaction;
 import org.example.model.User;
 import org.example.service.FlutterWaveService;
@@ -36,7 +36,7 @@ public class OpayController {
 
 
     @PostMapping({"/api/v1/initiate-payment/opay"})
-    public ResponseEntity<?> initiate(@RequestBody Opay opay, Authentication authentication){
+    public ResponseEntity<?> initiate(@RequestBody PaymentMethod paymentMethod, Authentication authentication){
         try {
             String userEmail = authentication.getName();
 
@@ -44,11 +44,11 @@ public class OpayController {
 
             User user = userService.getUser(userEmail);
 
-            System.out.println("My name is " + userEmail + " And i want to pay " + " Amount::" + BigDecimal.valueOf(opay.getAmount()));
-            Transaction transaction = new Transaction(transactionRef, user.getId(), TransactionType.add_funds, BigDecimal.valueOf(opay.getAmount()), DateTime.getLocalDateTime(), TransactionStatus.pending);
+            System.out.println("My name is " + userEmail + " And i want to pay " + " Amount::" + BigDecimal.valueOf(paymentMethod.getAmount()));
+            Transaction transaction = new Transaction(transactionRef, user.getId(), TransactionType.add_funds, BigDecimal.valueOf(paymentMethod.getAmount()), DateTime.getLocalDateTime(), TransactionStatus.pending);
 
-            opay.setTransactionRef(transactionRef);
-            String responseData = flutterWaveService.opayPayment(opay, userEmail);
+            paymentMethod.setTransactionRef(transactionRef);
+            String responseData = flutterWaveService.opayPayment(paymentMethod, userEmail);
 
             transactionService.add(transaction);
 
