@@ -31,10 +31,9 @@ public class JwtFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
-                         FilterChain filterChain) throws IOException, ServletException {
+                         FilterChain filterChain) throws IOException, ServletException{
 
         try{
-
             HttpServletRequest httpRequest = (HttpServletRequest) request;
             String authHeader = httpRequest.getHeader("Authorization");
 
@@ -62,8 +61,6 @@ public class JwtFilter implements Filter {
                        );
 
                SecurityContextHolder.getContext().setAuthentication(authToken);
-
-//               filterChain.doFilter(request, response);
            }
 
         } catch (ExpiredJwtException e) {
@@ -72,6 +69,7 @@ public class JwtFilter implements Filter {
         } catch (Exception e){
             System.out.println("Unknown Error Occurred");
         }
+
 
         filterChain.doFilter(request, response);
     }

@@ -53,8 +53,6 @@ public class FlutterWaveWebhookController {
             String transactionRef = data.path("tx_ref").asText();
             String status = data.path("status").asText();
 
-            System.out.println("Triggered::"+transactionRef + " " + status);//
-
 
 
             if (TransactionStatus.successful.name().equals(status)){
