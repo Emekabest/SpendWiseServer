@@ -20,7 +20,7 @@ public class JwtService {
     private String secret;
 
     private static final long ACCESSTOKEN_JWTEXPIRATION = 1000 * 60;//
-    private static final long REFRESHTOKEN_JWTEXPIRATION = 1000 * 60 * 2;
+    private static final long REFRESHTOKEN_JWTEXPIRATION = 1000 * 60 * 10;
 
 
     private Key getSignKey() {
