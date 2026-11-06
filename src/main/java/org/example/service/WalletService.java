@@ -37,11 +37,12 @@ public class WalletService {
             wallet = walletOptional.get();
         }
 
+
         return wallet;
     }
 
 
-    public void updateTotalBalance(String transactionRef){
+    public void updateAvailableBalance(String transactionRef){
         Transaction transaction = transactionService.get(transactionRef);
 
         if (TransactionStatus.pending.equals(transaction.getStatus())){
@@ -52,15 +53,14 @@ public class WalletService {
             TransactionType transactionType = transaction.getType();
 
             Wallet wallet = this.get(userId);
-
-            BigDecimal totalBalance = wallet.getAvailableBalance();
+            BigDecimal availableBalance = wallet.getAvailableBalance();
 
 
             //add_funds
             if (TransactionType.add_funds.name().equals(transactionType.name())){
-                 BigDecimal newTotalBalance = totalBalance.add(transactionAmount);
+                 BigDecimal newAvailableBalance = availableBalance.add(transactionAmount);
 
-                 wallet.setAvailableBalance(newTotalBalance);
+                 wallet.setAvailableBalance(newAvailableBalance);
 
                  walletRepository.save(wallet);
             }

@@ -57,7 +57,7 @@ public class FlutterWaveWebhookController {
 
             if (TransactionStatus.successful.name().equals(status)){
                 //Fund User Wallet
-                walletService.updateTotalBalance(transactionRef);
+                walletService.updateAvailableBalance(transactionRef);
 
                 Transaction transaction = new Transaction();
                 transaction.setTransactionRef(transactionRef);
