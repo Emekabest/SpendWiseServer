@@ -67,6 +67,7 @@ public class WalletService {
                  wallet.setAvailableBalance(newAvailableBalance);
 
                  walletRepository.save(wallet);
+
             }
 
         }
@@ -76,6 +77,8 @@ public class WalletService {
 
     @Transactional
     public String moveToSavings(int amountToSave, int userId){
+
+        System.out.println("Started");
 
         Wallet wallet = walletRepository.findByUserIdForMoveToSavingsUpdate(userId)
                 .orElseThrow(()-> new RuntimeException("Wallet not found"));
@@ -96,7 +99,10 @@ public class WalletService {
         wallet.setAvailableBalance(availableBalance);
 
 
+        System.out.println("AvailableBalance::"+wallet.getAvailableBalance()  +" " + "Savings::"+wallet.getSavings());
+
         walletRepository.save(wallet);
+
 
         return "";
     }
