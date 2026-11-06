@@ -8,6 +8,7 @@ import org.example.model.Wallet;
 import org.example.repository.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -52,7 +53,9 @@ public class WalletService {
             BigDecimal transactionAmount = transaction.getAmount();
             TransactionType transactionType = transaction.getType();
 
-            Wallet wallet = this.get(userId);
+            Wallet wallet = walletRepository.findByUserIdForMoveToSavingsUpdate(userId)
+                    .orElseThrow(()-> new RuntimeException("Wallet not found"));
+
             BigDecimal availableBalance = wallet.getAvailableBalance();
 
 
@@ -66,6 +69,35 @@ public class WalletService {
             }
 
         }
+    }
+
+
+
+    @Transactional
+    public String moveToSavings(int amountToSave, int userId){
+
+        Wallet wallet = walletRepository.findByUserIdForMoveToSavingsUpdate(userId)
+                .orElseThrow(()-> new RuntimeException("Wallet not found"));
+
+        BigDecimal availableBalance = wallet.getAvailableBalance();
+        BigDecimal savings = wallet.getSavings();
+
+        if (availableBalance.compareTo(BigDecimal.valueOf(amountToSave)) < 0){
+            return "Insufficient available balance";
+        }
+
+
+        availableBalance = availableBalance.subtract(BigDecimal.valueOf(amountToSave));
+        savings = savings.add(BigDecimal.valueOf(amountToSave));
+
+
+        wallet.setSavings(savings);
+        wallet.setAvailableBalance(availableBalance);
+
+
+        walletRepository.save(wallet);
+
+        return "";
     }
 
 }
