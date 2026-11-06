@@ -83,7 +83,7 @@ public class WalletService {
         Wallet wallet = walletRepository.findByUserIdForMoveToSavingsUpdate(userId)
                 .orElseThrow(()-> new RuntimeException("Wallet not found"));
 
-        System.out.println("Started::" + wallet.getAvailableBalance());
+        System.out.println("Started::" + wallet.getAvailableBalance());//
 
         BigDecimal availableBalance = wallet.getAvailableBalance();
         BigDecimal savings = wallet.getSavings();
