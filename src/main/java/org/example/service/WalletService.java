@@ -78,10 +78,12 @@ public class WalletService {
     @Transactional
     public String moveToSavings(int amountToSave, int userId){
 
-        System.out.println("Started");
+
 
         Wallet wallet = walletRepository.findByUserIdForMoveToSavingsUpdate(userId)
                 .orElseThrow(()-> new RuntimeException("Wallet not found"));
+
+        System.out.println("Started::" + wallet.getAvailableBalance());
 
         BigDecimal availableBalance = wallet.getAvailableBalance();
         BigDecimal savings = wallet.getSavings();
@@ -104,7 +106,7 @@ public class WalletService {
         walletRepository.save(wallet);
 
 
-        return "";
+        return "successful";
     }
 
 }
