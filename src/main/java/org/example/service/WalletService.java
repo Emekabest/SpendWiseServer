@@ -43,6 +43,7 @@ public class WalletService {
     }
 
 
+
     public void updateAvailableBalance(String transactionRef){
         Transaction transaction = transactionService.get(transactionRef);
 

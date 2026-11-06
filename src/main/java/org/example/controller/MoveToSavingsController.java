@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 public class MoveToSavingsController {
 
@@ -21,18 +24,30 @@ public class MoveToSavingsController {
     private WalletService walletService;
 
 
-    @PostMapping({""})
+    @PostMapping({"/api/v1/move-to-savings"})
     public ResponseEntity<?> request(@RequestBody int amountToSave, Authentication authentication){
 
-        String userEmail = authentication.getName();
-        User user = userService.getUser(userEmail);
-        int userId = user.getId();
+        try{
+            String userEmail = authentication.getName();
+            User user = userService.getUser(userEmail);
+            int userId = user.getId();
 
 
-        walletService.moveToSavings(amountToSave, userId);
+            String moveToSavingsResponse = walletService.moveToSavings(amountToSave, userId);
 
 
-        return ResponseEntity.ok().build();
+            Map<String, Object> response =  new HashMap<>();
+
+            response.put("status", 200);
+            response.put("message", moveToSavingsResponse);
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+
+            throw new RuntimeException(e);
+        }
+
     }
 
 
