@@ -53,14 +53,14 @@ public class WalletService {
 
             Wallet wallet = this.get(userId);
 
-            BigDecimal totalBalance = wallet.getTotalBalance();
+            BigDecimal totalBalance = wallet.getAvailableBalance();
 
 
             //add_funds
             if (TransactionType.add_funds.name().equals(transactionType.name())){
                  BigDecimal newTotalBalance = totalBalance.add(transactionAmount);
 
-                 wallet.setTotalBalance(newTotalBalance);
+                 wallet.setAvailableBalance(newTotalBalance);
 
                  walletRepository.save(wallet);
             }

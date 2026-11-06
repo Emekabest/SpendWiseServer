@@ -18,21 +18,25 @@ public class Wallet {
     private int userId;
 
     @Column(nullable = false, precision = 19, scale = 2)
-    private BigDecimal totalBalance;
+    private BigDecimal availableBalance;
 
     @Column(nullable = false, precision = 19, scale = 2)
-    private BigDecimal accessBalance;
+    private BigDecimal savings;
+
+    @Column(nullable = false, precision = 19, scale = 2)
+    private BigDecimal budgetAllowance;
 
     public Wallet(){
 
 
     }
 
-    public Wallet (int userId, BigDecimal totalBalance, BigDecimal accessBalance){
+    public Wallet (int userId, BigDecimal availableBalance, BigDecimal savings, BigDecimal budgetAllowance){
 
         this.userId = userId;
-        this.totalBalance=totalBalance;
-        this.accessBalance=accessBalance;
+        this.availableBalance = availableBalance;
+        this.savings = savings;
+        this.budgetAllowance = budgetAllowance;
 
     }
 
@@ -44,17 +48,25 @@ public class Wallet {
         return userId;
     }
 
-    public void setTotalBalance(BigDecimal totalBalance){
-        this.totalBalance = totalBalance;
+    public void setAvailableBalance(BigDecimal availableBalance){
+        this.availableBalance = availableBalance;
     }
-    public BigDecimal getTotalBalance() {
-        return totalBalance;
+    public BigDecimal getAvailableBalance() {
+        return availableBalance;
     }
 
-    public void setAccessBalance(BigDecimal accessBalance) {
-        this.accessBalance = accessBalance;
+    public void setSavings(BigDecimal savings){
+        this.savings = savings;
     }
-    public BigDecimal getAccessBalance() {
-        return accessBalance;
+    public BigDecimal getSavings(){
+
+        return this.savings;
+    }
+
+    public void setBudgetAllowance(BigDecimal budgetAllowance) {
+        this.budgetAllowance = budgetAllowance;
+    }
+    public BigDecimal getBudgetAllowance() {
+        return budgetAllowance;
     }
 }

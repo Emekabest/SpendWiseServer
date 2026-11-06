@@ -33,8 +33,9 @@ public class WalletController {
 
             Map<String, Object> response =  new HashMap<>();
             response.put("status", 200);
-            response.put("total_balance", wallet.getTotalBalance());
-            response.put("access_balance", wallet.getAccessBalance());
+            response.put("available_balance", wallet.getAvailableBalance());
+            response.put("savings", wallet.getSavings());
+            response.put("budget_allowance", wallet.getBudgetAllowance());
 
             return ResponseEntity.ok(response);
 

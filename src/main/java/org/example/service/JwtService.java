@@ -23,7 +23,7 @@ public class JwtService {
     private static final long REFRESHTOKEN_JWTEXPIRATION = 1000 * 60 * 15;
 
 
-    private Key getSignKey() {
+    private Key getSignKey(){
 
         return Keys.hmacShaKeyFor(secret.getBytes());
 

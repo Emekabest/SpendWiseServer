@@ -29,7 +29,7 @@ public class CreateAccountListener{
         try{
             User newUser = createAccountEvent.getUser();
 
-            Wallet wallet = new Wallet(newUser.getId(), new BigDecimal("0.00"), new BigDecimal("0.00"));
+            Wallet wallet = new Wallet(newUser.getId(), new BigDecimal("0.00"), new BigDecimal("0.0"), new BigDecimal("0.00"));
 
             walletService.add(wallet);
         } catch (Exception e) {
