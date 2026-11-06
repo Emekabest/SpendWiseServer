@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.dto.MoveToSavingsRecord;
 import org.example.model.User;
 import org.example.service.UserService;
 import org.example.service.WalletService;
@@ -25,9 +26,11 @@ public class MoveToSavingsController {
 
 
     @PostMapping({"/api/v1/move-to-savings"})
-    public ResponseEntity<?> request(@RequestBody int amountToSave, Authentication authentication){
+    public ResponseEntity<?> move(@RequestBody MoveToSavingsRecord moveToSavingsRecord, Authentication authentication){
 
         try{
+            int amountToSave = moveToSavingsRecord.amountToSave();
+
             String userEmail = authentication.getName();
             User user = userService.getUser(userEmail);
             int userId = user.getId();
