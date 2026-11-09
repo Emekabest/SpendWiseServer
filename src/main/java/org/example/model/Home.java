@@ -13,8 +13,6 @@ public class Home {
 
     private User user;
 
-    private Budget budget;
-
     private List<Notification> notifications;
 
 }

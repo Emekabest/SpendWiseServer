@@ -31,8 +31,6 @@ public class MoveToSavingsController {
         try{
             int amountToSave = moveToSavingsRecord.amountToSave();
 
-            System.out.println("AmountToSave::"+amountToSave);
-
             String userEmail = authentication.getName();
             User user = userService.getUser(userEmail);
             int userId = user.getId();

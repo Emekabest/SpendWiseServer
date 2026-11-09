@@ -1,54 +1,44 @@
 package org.example.controller;
 
-
+import org.example.dto.DailyBudgetRequest;
 import org.example.model.Budget;
-import org.example.model.DateTime;
 import org.example.service.BudgetService;
+import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-
 @RestController
+@RequestMapping("/api/v1/budget")
 public class BudgetController {
 
     @Autowired
-    BudgetService budgetService;
+    private final BudgetService budgetService;
 
+    @Autowired
+    private UserService userService;
 
-
-
-    @PostMapping({"/setbudget"})
-    public String setBudget(@RequestBody Budget budget){
-        try{
-
-            budget.setAccessAmount(budget.getLimitAmount());
-            budget.setAccessAmountLastRestoredDate(DateTime.getLocalDate());
-
-            if ("daily".equals(budget.getType())){
-
-                budget.setAccessAmountNextRestoredDate(1);
-
-            } else if ("weekly".equals(budget.getType())){
-
-                budget.setAccessAmountNextRestoredDate(7);
-
-            } else if ("monthly".equals(budget.getType())){
-
-                budget.setAccessAmountNextRestoredDate(30);
-            }
-
-            budgetService.add(budget);
-
-            return "Successful";
-
-        } catch (Exception e) {
-
-            throw new RuntimeException(e);
-        }
-
+    public BudgetController(BudgetService budgetService) {
+        this.budgetService = budgetService;
     }
+
+
+    @PostMapping("/daily")
+    public ResponseEntity<?> createDailyBudget(@RequestBody DailyBudgetRequest request, Authentication authentication) {
+        // Get the authenticated user's ID here
+
+        String userEmail = authentication.getName();
+        int userId = userService.getUser(userEmail).getId();
+
+        Budget budget = budgetService.createDailyBudget(userId, request);
+
+        return ResponseEntity.ok(budget);
+    }
+
+
 
 }

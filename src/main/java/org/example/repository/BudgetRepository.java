@@ -1,14 +1,14 @@
 package org.example.repository;
 
+import org.example.enums.BudgetStatus;
+import org.example.enums.BudgetType;
 import org.example.model.Budget;
-import org.example.model.User;
-import org.example.model.UserOtp;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface BudgetRepository extends JpaRepository<Budget, Integer> {
+public interface BudgetRepository extends JpaRepository<Budget, Long> {
 
-    Optional<Budget> findByEmail(String email);
+    Optional<Budget> findByUserIdAndTypeAndStatus(int userId, BudgetType type, BudgetStatus status );
 
 }

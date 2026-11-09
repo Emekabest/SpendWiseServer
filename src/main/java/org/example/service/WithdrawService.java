@@ -23,9 +23,6 @@ public class WithdrawService {
     private UserService userService;
 
     @Autowired
-    private BudgetService budgetService;
-
-    @Autowired
     private EmailService emailService;
 
     @Autowired
@@ -49,8 +46,8 @@ public class WithdrawService {
 //        User user = userService.getUser(withdraw.getEmail());
 
         Transaction transaction = new Transaction();
-//        transaction.setTransactionRef(withdraw.getWithdrawTxnId());
-//        transaction.setUserId(user.getId());
+//      transaction.setTransactionRef(withdraw.getWithdrawTxnId());
+//      transaction.setUserId(user.getId());
         transaction.setType(TransactionType.withdrawal);
 //        transaction.setAmount(withdraw.getAmount());
         transaction.setTime(DateTime.getLocalDateTime());
