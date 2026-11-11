@@ -72,11 +72,11 @@ public class Budget {
         return type;
     }
 
-    public void setDurationDays(int durationDays) {
+    public void setDuration(int durationDays) {
         this.durationDays = durationDays;
     }
 
-    public int getDurationDays() {
+    public int getDuration() {
         return durationDays;
     }
 

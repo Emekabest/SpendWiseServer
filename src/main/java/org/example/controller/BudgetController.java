@@ -1,6 +1,6 @@
 package org.example.controller;
 
-import org.example.dto.DailyBudgetRequest;
+import org.example.dto.BudgetRequest;
 import org.example.model.Budget;
 import org.example.service.BudgetService;
 import org.example.service.UserService;
@@ -9,14 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
 
 @RestController
-@RequestMapping("/api/v1/budget")
-public class BudgetController {
+public class BudgetController{
 
     @Autowired
     private final BudgetService budgetService;
@@ -26,17 +24,18 @@ public class BudgetController {
 
     public BudgetController(BudgetService budgetService) {
         this.budgetService = budgetService;
+
     }
 
 
-    @PostMapping("/daily")
-    public ResponseEntity<?> createDailyBudget(@RequestBody DailyBudgetRequest request, Authentication authentication) {
+    @PostMapping("/api/v1/budget/create")
+    public ResponseEntity<?> createBudget(@RequestBody BudgetRequest request, Authentication authentication){
         // Get the authenticated user's ID here
 
         String userEmail = authentication.getName();
         int userId = userService.getUser(userEmail).getId();
 
-        Budget budget = budgetService.createDailyBudget(userId, request);
+        Budget budget = budgetService.createBudget(userId, request);
 
         return ResponseEntity.ok(budget);
     }

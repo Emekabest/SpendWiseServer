@@ -1,8 +1,7 @@
 package org.example.service;
 
-import org.example.dto.DailyBudgetRequest;
+import org.example.dto.BudgetRequest;
 import org.example.enums.BudgetStatus;
-import org.example.enums.BudgetType;
 import org.example.exception.BudgetNotFoundException;
 import org.example.model.Budget;
 import org.example.model.BudgetUsage;
@@ -35,61 +34,85 @@ public class BudgetService {
 
 
     @Transactional
-    public Budget createDailyBudget(int userId, DailyBudgetRequest request){
+    public Budget createBudget(int userId, BudgetRequest request) {
 
         // Validate amount
         if (request.amount() == null ||
-                request.amount().compareTo(BigDecimal.ZERO) <= 0){
+                request.amount().compareTo(BigDecimal.ZERO) <= 0) {
             throw new RuntimeException("Invalid budget amount");
         }
 
         // Validate duration
-        if (request.durationDays() < 1 ||
-                request.durationDays() > 6) {
-            throw new RuntimeException(
-                    "Daily budget duration must be between 1 and 6 days"
-            );
+        if (request.duration() < 1) {
+            throw new RuntimeException("Invalid budget duration");
         }
 
+        // Validate duration based on budget type
+        switch (request.type()) {
+            case DAILY -> {
+                if (request.duration() > 6) {
+                    throw new RuntimeException(
+                            "Daily budget duration must be between 1 and 6 days"
+                    );
+                }
+            }
 
-        // Check for an existing active daily budget
-        boolean alreadyExists = budgetRepository.findByUserIdAndStatus(userId, BudgetStatus.ACTIVE).isPresent();
+            case WEEKLY -> {
+                if (request.duration() > 3) {
+                    throw new RuntimeException(
+                            "Weekly budget duration must be between 1 and 3 weeks"
+                    );
+                }
+            }
+
+            case MONTHLY -> {
+                if (request.duration() > 11) {
+                    throw new RuntimeException(
+                            "Monthly budget duration must be between 1 and 11 months"
+                    );
+                }
+            }
+        }
+
+        // Check for existing active budget
+        boolean alreadyExists = budgetRepository
+                .findByUserIdAndStatus(userId, BudgetStatus.ACTIVE)
+                .isPresent();
 
         if (alreadyExists) {
-
-            throw new RuntimeException(
-                    "You already have an active daily budget"
-            );
+            throw new RuntimeException("You already have an active budget");
         }
+
 
         LocalDate startDate = LocalDate.now(
                 ZoneId.of("Africa/Lagos")
         );
 
-        LocalDate endDate = startDate.plusDays(
-                request.durationDays() - 1
-        );
+
+        // Calculate end date based on budget type
+        LocalDate endDate = switch (request.type()) {
+            case DAILY -> startDate.plusDays(request.duration() - 1);
+            case WEEKLY -> startDate.plusWeeks(request.duration()).minusDays(1);
+            case MONTHLY -> startDate.plusMonths(request.duration()).minusDays(1);
+        };
 
         Budget budget = new Budget();
 
         budget.setUserId(userId);
         budget.setAmount(request.amount());
-        budget.setDurationDays(request.durationDays());
+        budget.setDuration(request.duration());
         budget.setStartDate(startDate);
         budget.setEndDate(endDate);
-        budget.setType(BudgetType.DAILY);
+        budget.setType(request.type());
         budget.setStatus(BudgetStatus.ACTIVE);
 
-
-        // Calculate the overall end date based on budget type
         Budget savedBudget = budgetRepository.save(budget);
 
-        // Generate all corresponding usage records
+        // Generate usage records
         createBudgetUsage(savedBudget);
 
         return savedBudget;
     }
-
 
 
     private void createBudgetUsage(Budget budget) {
@@ -97,8 +120,7 @@ public class BudgetService {
         List<BudgetUsage> usages = new ArrayList<>();
 
 
-
-        for (int i = 0; i < budget.getDurationDays(); i++) {
+        for (int i = 0; i < budget.getDuration(); i++) {
 
             LocalDate periodStart;
             LocalDate periodEnd;
@@ -145,7 +167,6 @@ public class BudgetService {
                 .findByUserIdAndStatus(userId, BudgetStatus.ACTIVE)
                 .orElseThrow(() -> new BudgetNotFoundException("Budget not found"));
     }
-
 
 
     public BudgetUsage getUserBudgetUsage(long budgetId, LocalDate periodStartDate, LocalDate periodEndDate){
