@@ -1,8 +1,13 @@
 package org.example.service;
 
 
+import org.example.enums.BudgetStatus;
+import org.example.enums.BudgetType;
 import org.example.enums.TransactionStatus;
 import org.example.enums.TransactionType;
+import org.example.exception.BudgetNotFoundException;
+import org.example.model.Budget;
+import org.example.model.BudgetUsage;
 import org.example.model.Transaction;
 import org.example.model.Wallet;
 import org.example.repository.WalletRepository;
@@ -11,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Optional;
 
 @Service
@@ -22,6 +29,9 @@ public class WalletService {
 
     @Autowired
     private TransactionService transactionService;
+
+    @Autowired
+    private BudgetService budgetService;
 
     public void add(Wallet wallet){
 
@@ -86,6 +96,8 @@ public class WalletService {
         BigDecimal availableBalance = wallet.getAvailableBalance();
         BigDecimal savings = wallet.getSavings();
 
+
+
         if (availableBalance.compareTo(BigDecimal.valueOf(amountToSave)) < 0){
             return "Insufficient available balance";
         }
@@ -102,6 +114,36 @@ public class WalletService {
 
 
         return "successful";
+    }
+
+
+
+    public BigDecimal getBudgetAllowance(int userId){
+
+            try{
+                Budget budget = budgetService.getUserBudget(userId, BudgetStatus.ACTIVE );
+
+                if (BudgetType.DAILY.equals(budget.getType())){ //Daily Budget....
+                    LocalDate today = LocalDate.now(ZoneId.of("Africa/Lagos"));
+
+                    BudgetUsage budgetUsage = budgetService.getUserBudgetUsage(budget.getId(), today, today);
+
+                    System.out.println("BudgetAllowance::"+budget.getAmount().subtract(budgetUsage.getAmountSpent()));
+                    return budget.getAmount().subtract(budgetUsage.getAmountSpent());
+                }
+
+
+
+                return BigDecimal.ZERO;
+            }catch (BudgetNotFoundException e) {
+                System.out.println("BudgetNotFound hehe...");
+
+                return BigDecimal.ZERO;
+            } catch (RuntimeException e) {
+
+                throw new RuntimeException(e);
+            }
+
     }
 
 }

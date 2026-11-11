@@ -23,20 +23,17 @@ public class Wallet {
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal savings;
 
-    @Column(nullable = false, precision = 19, scale = 2)
-    private BigDecimal budgetAllowance;
 
     public Wallet(){
 
 
     }
 
-    public Wallet (int userId, BigDecimal availableBalance, BigDecimal savings, BigDecimal budgetAllowance){
+    public Wallet (int userId, BigDecimal availableBalance, BigDecimal savings){
 
         this.userId = userId;
         this.availableBalance = availableBalance;
         this.savings = savings;
-        this.budgetAllowance = budgetAllowance;
 
     }
 
@@ -63,10 +60,4 @@ public class Wallet {
         return this.savings;
     }
 
-    public void setBudgetAllowance(BigDecimal budgetAllowance) {
-        this.budgetAllowance = budgetAllowance;
-    }
-    public BigDecimal getBudgetAllowance() {
-        return budgetAllowance;
-    }
 }

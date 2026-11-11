@@ -16,5 +16,6 @@ public interface BudgetUsageRepository
             LocalDate periodEndDate
     );
 
+
     List<BudgetUsage> findByBudgetId(Long budgetId);
 }

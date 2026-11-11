@@ -35,7 +35,7 @@ public class WalletController {
             response.put("status", 200);
             response.put("available_balance", wallet.getAvailableBalance());
             response.put("savings", wallet.getSavings());
-            response.put("budget_allowance", wallet.getBudgetAllowance());
+            response.put("budget_allowance", walletService.getBudgetAllowance(userId));
 
             return ResponseEntity.ok(response);
 

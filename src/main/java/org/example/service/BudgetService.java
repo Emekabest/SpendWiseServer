@@ -3,6 +3,7 @@ package org.example.service;
 import org.example.dto.DailyBudgetRequest;
 import org.example.enums.BudgetStatus;
 import org.example.enums.BudgetType;
+import org.example.exception.BudgetNotFoundException;
 import org.example.model.Budget;
 import org.example.model.BudgetUsage;
 import org.example.repository.BudgetRepository;
@@ -50,11 +51,9 @@ public class BudgetService {
             );
         }
 
+
         // Check for an existing active daily budget
-        boolean alreadyExists = budgetRepository
-                .findByUserIdAndTypeAndStatus(
-                        userId, BudgetType.DAILY, BudgetStatus.ACTIVE
-                ).isPresent();
+        boolean alreadyExists = budgetRepository.findByUserIdAndStatus(userId, BudgetStatus.ACTIVE).isPresent();
 
         if (alreadyExists) {
             throw new RuntimeException(
@@ -134,6 +133,23 @@ public class BudgetService {
         }
 
         budgetUsageRepository.saveAll(usages);
+    }
+
+
+    public Budget getUserBudget(int userId, BudgetStatus status){
+
+        return budgetRepository
+                .findByUserIdAndStatus(userId, status)
+                .orElseThrow(() -> new BudgetNotFoundException("Budget not found"));
+    }
+
+
+
+    public BudgetUsage getUserBudgetUsage(long budgetId, LocalDate periodStartDate, LocalDate periodEndDate){
+
+        return budgetUsageRepository
+                .findByBudgetIdAndPeriodStartDateAndPeriodEndDate(budgetId, periodStartDate, periodEndDate )
+                .orElseThrow(() -> new RuntimeException("Budget usage not found"));
     }
 
 }
