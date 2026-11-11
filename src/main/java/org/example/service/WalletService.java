@@ -1,7 +1,6 @@
 package org.example.service;
 
 
-import org.example.enums.BudgetStatus;
 import org.example.enums.BudgetType;
 import org.example.enums.TransactionStatus;
 import org.example.enums.TransactionType;
@@ -121,22 +120,19 @@ public class WalletService {
     public BigDecimal getBudgetAllowance(int userId){
 
             try{
-                Budget budget = budgetService.getUserBudget(userId, BudgetStatus.ACTIVE );
+                Budget budget = budgetService.getUserBudget(userId);
 
                 if (BudgetType.DAILY.equals(budget.getType())){ //Daily Budget....
                     LocalDate today = LocalDate.now(ZoneId.of("Africa/Lagos"));
 
                     BudgetUsage budgetUsage = budgetService.getUserBudgetUsage(budget.getId(), today, today);
 
-                    System.out.println("BudgetAllowance::"+budget.getAmount().subtract(budgetUsage.getAmountSpent()));
                     return budget.getAmount().subtract(budgetUsage.getAmountSpent());
                 }
 
 
-
                 return BigDecimal.ZERO;
             }catch (BudgetNotFoundException e) {
-                System.out.println("BudgetNotFound hehe...");
 
                 return BigDecimal.ZERO;
             } catch (RuntimeException e) {

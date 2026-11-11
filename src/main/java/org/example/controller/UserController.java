@@ -1,7 +1,10 @@
 package org.example.controller;
 
 
+import org.example.exception.BudgetNotFoundException;
+import org.example.model.Budget;
 import org.example.model.User;
+import org.example.service.BudgetService;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,19 +21,32 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BudgetService budgetService;
+
+
     @GetMapping({"/api/v1/users/me"})
     public ResponseEntity<?> user(Authentication authentication){
 
         String userEmail = authentication.getName();
 
         try{
-            User user = userService.getUser(userEmail);//
+            User user = userService.getUser(userEmail);
 
             Map<String, Object> response =  new HashMap<>();
 
             response.put("status", 200);
             response.put("firstname", user.getFirstname());
             response.put("lastname", user.getLastname());
+            try {
+
+                Budget budget = budgetService.getUserBudget(user.getId());
+                response.put("budget", budget);
+            } catch (BudgetNotFoundException e){
+
+                response.put("budget", null);
+            }
+
 
             return ResponseEntity.ok(response);
         } catch (Exception e){

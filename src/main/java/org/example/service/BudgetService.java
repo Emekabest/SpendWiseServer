@@ -56,6 +56,7 @@ public class BudgetService {
         boolean alreadyExists = budgetRepository.findByUserIdAndStatus(userId, BudgetStatus.ACTIVE).isPresent();
 
         if (alreadyExists) {
+
             throw new RuntimeException(
                     "You already have an active daily budget"
             );
@@ -94,6 +95,8 @@ public class BudgetService {
     private void createBudgetUsage(Budget budget) {
 
         List<BudgetUsage> usages = new ArrayList<>();
+
+
 
         for (int i = 0; i < budget.getDurationDays(); i++) {
 
@@ -136,10 +139,10 @@ public class BudgetService {
     }
 
 
-    public Budget getUserBudget(int userId, BudgetStatus status){
+    public Budget getUserBudget(int userId){
 
         return budgetRepository
-                .findByUserIdAndStatus(userId, status)
+                .findByUserIdAndStatus(userId, BudgetStatus.ACTIVE)
                 .orElseThrow(() -> new BudgetNotFoundException("Budget not found"));
     }
 

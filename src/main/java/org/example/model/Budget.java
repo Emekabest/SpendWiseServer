@@ -19,6 +19,9 @@ public class Budget {
     private BigDecimal amount;
 
     private int durationDays;
+    private int durationWeeks;
+    private int durationMonths;
+
 
     private LocalDate startDate;
 
@@ -76,6 +79,24 @@ public class Budget {
     public int getDurationDays() {
         return durationDays;
     }
+
+
+    public void setDurationWeeks(int durationWeeks){
+        this.durationWeeks = durationWeeks;
+    }
+    public int getDurationWeeks() {
+        return durationWeeks;
+    }
+
+
+    public void setDurationMonths(int durationMonths) {
+        this.durationMonths = durationMonths;
+    }
+    public int getDurationMonths() {
+        return durationMonths;
+    }
+
+
 
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
