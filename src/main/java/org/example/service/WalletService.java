@@ -1,7 +1,6 @@
 package org.example.service;
 
 
-import org.example.enums.BudgetType;
 import org.example.enums.TransactionStatus;
 import org.example.enums.TransactionType;
 import org.example.exception.BudgetNotFoundException;
@@ -17,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 @Service
@@ -117,29 +117,55 @@ public class WalletService {
 
 
 
-    public BigDecimal getBudgetAllowance(int userId){
+    public BigDecimal getBudgetAllowance(int userId) {
 
-            try{
-                Budget budget = budgetService.getUserBudget(userId);
+        try {
+            Budget budget = budgetService.getUserBudget(userId);
 
-                if (BudgetType.DAILY.equals(budget.getType())){ //Daily Budget....
-                    LocalDate today = LocalDate.now(ZoneId.of("Africa/Lagos"));
+            LocalDate today = LocalDate.now(ZoneId.of("Africa/Lagos"));
 
-                    BudgetUsage budgetUsage = budgetService.getUserBudgetUsage(budget.getId(), today, today);
+            LocalDate periodStart;
+            LocalDate periodEnd;
 
-                    return budget.getAmount().subtract(budgetUsage.getAmountSpent());
+            switch (budget.getType()) {
+
+                case DAILY -> {
+                    periodStart = today;
+                    periodEnd = today;
                 }
 
+                case WEEKLY -> {
+                    periodStart = budget.getStartDate().plusWeeks(
+                            ChronoUnit.WEEKS.between(
+                                    budget.getStartDate(), today
+                            )
+                    );
 
-                return BigDecimal.ZERO;
-            }catch (BudgetNotFoundException e) {
+                    periodEnd = periodStart.plusWeeks(1).minusDays(1);
+                }
 
-                return BigDecimal.ZERO;
-            } catch (RuntimeException e) {
+                case MONTHLY -> {
+                    long months = ChronoUnit.MONTHS.between(
+                            budget.getStartDate().withDayOfMonth(1),
+                            today.withDayOfMonth(1)
+                    );
 
-                throw new RuntimeException(e);
+                    periodStart = budget.getStartDate().plusMonths(months);
+                    periodEnd = budget.getStartDate()
+                            .plusMonths(months + 1)
+                            .minusDays(1);
+                }
+
+                default -> throw new RuntimeException("Invalid budget type");
             }
 
+            BudgetUsage usage = budgetService.getUserBudgetUsage(budget.getId(), periodStart, periodEnd);
+
+            return budget.getAmount().subtract(usage.getAmountSpent());
+
+        } catch (BudgetNotFoundException e) {
+            return BigDecimal.ZERO;
+        }
     }
 
 }
