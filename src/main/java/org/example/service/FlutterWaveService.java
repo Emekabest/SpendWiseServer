@@ -105,6 +105,22 @@ public class FlutterWaveService {
     }
 
 
+    public String confirmBankAccount(String accountNumber, String accountBank){
+        RestClient restClient = RestClient.create();
+
+        return restClient.post().uri("https://api.flutterwave.com/v3/accounts/resolve")
+                .header("Authorization", "Bearer " + FLW_SECRETKEY)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .body(Map.of(
+                "account_number", accountNumber,
+                "account_bank", accountBank
+                ))
+                .retrieve()
+                .body(String.class);
+    }
+
+
     public String testFixie() {
         return transferRestClient.get()
                 .uri("https://api.ipify.org")
