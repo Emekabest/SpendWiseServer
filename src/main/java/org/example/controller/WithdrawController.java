@@ -6,11 +6,14 @@ import org.example.service.FlutterWaveService;
 import org.example.service.UserService;
 import org.example.service.WithdrawService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
@@ -74,7 +77,14 @@ public class WithdrawController {
                     bankAccountDetails.accountNumber(),
                     bankAccountDetails.accountBank()
             );
-        } catch (Exception e) {
+        }
+        catch (HttpClientErrorException.BadRequest e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Account number is invalid"
+            );
+        }
+        catch (Exception e) {
 
             throw new RuntimeException(e);
         }
