@@ -43,7 +43,6 @@ public class FlutterWaveService {
                 .retrieve()
                 .body(String.class);
 
-
         return response;
     }
 
@@ -94,6 +93,17 @@ public class FlutterWaveService {
 
         return response;
     }
+
+
+    public String getBanks(){
+        RestClient restClient = RestClient.create();
+
+        return restClient.get().uri("https://api.flutterwave.com/v3/banks/NG")
+                .header("Authorization", "Bearer " + FLW_SECRETKEY)
+                .retrieve()
+                .body(String.class);
+    }
+
 
     public String testFixie() {
         return transferRestClient.get()

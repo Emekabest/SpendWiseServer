@@ -4,7 +4,6 @@ import org.example.model.Withdraw;
 import org.example.service.FlutterWaveService;
 import org.example.service.WithdrawService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
+
 public class WithdrawController {
 
     @Autowired
@@ -45,11 +45,12 @@ public class WithdrawController {
 
     }
 
-    @GetMapping("/test-fixie")
-    public ResponseEntity<?> testFixie() {
-        return ResponseEntity.ok(
-                flutterWaveService.testFixie()
-        );
+
+
+    @GetMapping("/api/v1/get-banks")
+    public String getBanks() {
+
+        return flutterWaveService.getBanks();
     }
 
 
