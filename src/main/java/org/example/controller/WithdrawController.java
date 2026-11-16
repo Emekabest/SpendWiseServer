@@ -18,7 +18,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.UUID;
 
 @RestController
-
 public class WithdrawController {
 
     @Autowired
@@ -31,12 +30,13 @@ public class WithdrawController {
     @Autowired
     private UserService userService;
 
+
+
     @PostMapping({"/api/v1/withdraw"})
     public String withdraw(@RequestBody Withdraw withdraw){
 
         try {
             String transactionRef = UUID.randomUUID().toString();
-
 
             flutterWaveService.transfer(
                     withdraw.getAccountNumber(),
@@ -90,6 +90,9 @@ public class WithdrawController {
         }
 
     }
+
+
+
 
 
 }

@@ -22,7 +22,6 @@ public class UserService {
 
     private final ApplicationEventPublisher publisher;
 
-
     @Autowired
     public UserService(UserRepository userRepository, ApplicationEventPublisher publisher){
         this.userRepository = userRepository;

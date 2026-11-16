@@ -23,7 +23,6 @@ public class Withdraw {
 
 
 
-
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
