@@ -76,6 +76,7 @@ public class WithdrawPinController {
 
             response.put("status", "200");
             response.put("message", "successful");
+            response.put("withdraw_pin", "available");
 
             return ResponseEntity.ok(response);
 
@@ -85,6 +86,8 @@ public class WithdrawPinController {
 
             response.put("status", "401");
             response.put("message", "not_found");
+            response.put("withdraw_pin", "unavailable");
+
 
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
