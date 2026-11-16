@@ -70,7 +70,7 @@ public class WithdrawPinController {
             String userEmail = authentication.getName();
             int userId = userService.getUser(userEmail).getId();
 
-            WithdrawPin withdrawPin = withdrawPinService.get(userId);
+            withdrawPinService.get(userId);
 
             Map<String, Object> response =  new HashMap<>();
 

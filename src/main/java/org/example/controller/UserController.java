@@ -2,10 +2,12 @@ package org.example.controller;
 
 
 import org.example.exception.BudgetNotFoundException;
+import org.example.exception.WithdrawPinNotFoundException;
 import org.example.model.Budget;
 import org.example.model.User;
 import org.example.service.BudgetService;
 import org.example.service.UserService;
+import org.example.service.WithdrawPinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -24,6 +26,9 @@ public class UserController {
     @Autowired
     private BudgetService budgetService;
 
+    @Autowired
+    private WithdrawPinService withdrawPinService;
+
 
     @GetMapping({"/api/v1/users/me"})
     public ResponseEntity<?> user(Authentication authentication){
@@ -38,13 +43,26 @@ public class UserController {
             response.put("status", 200);
             response.put("firstname", user.getFirstname());
             response.put("lastname", user.getLastname());
+
+
             try {
 
                 Budget budget = budgetService.getUserBudget(user.getId());
                 response.put("budget", budget);
+
             } catch (BudgetNotFoundException e){
 
                 response.put("budget", null);
+            }
+
+
+            try{
+                withdrawPinService.get(user.getId());
+                response.put("withdraw_pin", "available");
+            }
+            catch (WithdrawPinNotFoundException e) {
+
+                response.put("withdraw_pin", "unavailable");
             }
 
 
