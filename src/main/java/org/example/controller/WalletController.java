@@ -23,6 +23,8 @@ public class WalletController {
 
     @GetMapping("/api/v1/wallet")
     public ResponseEntity<?> getwallet(Authentication authentication){
+
+
         try {
 
             String userEmail = authentication.getName();

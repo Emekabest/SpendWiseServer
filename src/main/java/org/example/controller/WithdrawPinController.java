@@ -96,4 +96,20 @@ public class WithdrawPinController {
 
     }
 
+
+
+
+    @PostMapping("/api/v1/withdrawpin/verify")
+    public String verify(@RequestBody WithdrawPinRequest withdrawPinRequest, Authentication authentication){
+        try{
+            String userEmail = authentication.getName();
+            int userId = userService.getUser(userEmail).getId();
+
+
+            return withdrawPinService.verify(withdrawPinRequest.pin(), userId);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
