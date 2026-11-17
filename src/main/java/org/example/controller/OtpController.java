@@ -26,7 +26,7 @@ public class OtpController {
 
     @PostMapping({"/sendotp"})
     public String sendOtp(@RequestBody EmailRequest emailRequest){
-        int otpExpiryTimeMinutes = 3;
+        int otpExpiryTimeMinutes = 5;
 
         try{
             String otp = OtpGenerator.generateOtp(4);
@@ -38,7 +38,6 @@ public class OtpController {
             userOtp.setExpiryTime(LocalDateTime.now().plusMinutes(otpExpiryTimeMinutes));
 
             otpService.add(userOtp);
-
 
             String otpResponse =  otpService.sendOtp(otp, emailRequest.getEmail());
 

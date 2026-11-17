@@ -39,17 +39,14 @@ public class OtpService {
 
     public String sendOtp(String otp, String to){
 
-        MyEmail myEmail = new MyEmail();
-        myEmail.setFrom("onboarding@resend.dev");
-        myEmail.setSubject("SpendWise Signup OTP Code");
-        myEmail.setMessage("Your OTP code is: " + otp);
-        myEmail.setTo(to);
-
-
         try {
+            MyEmail myEmail = new MyEmail();
+            myEmail.setFrom("onboarding@resend.dev");
+            myEmail.setSubject("SpendWise Signup OTP Code");
+            myEmail.setMessage("Your OTP code is: " + otp);
+            myEmail.setTo(to);
 
-
-           return emailService.sendEmail(myEmail);
+            return emailService.sendEmail(myEmail);
 
         } catch (IOException e) {
             throw new RuntimeException(e);

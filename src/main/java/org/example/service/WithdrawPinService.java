@@ -33,6 +33,22 @@ public class WithdrawPinService {
     }
 
 
+
+    public void update(String pin,  int userId){
+
+        WithdrawPin withdrawPin = withdrawPinRepository.findByUserId(userId)
+                .orElseThrow(() -> new WithdrawPinNotFoundException(
+                        "You have not created a Withdrawal PIN"));
+
+
+        String newPinHash = passwordEncoder.encode(pin);
+
+        withdrawPin.setPinHash(newPinHash);
+
+        withdrawPinRepository.save(withdrawPin);
+    }
+
+
     public String verify(String pin, int userId){
 
         WithdrawPin withdrawPin = withdrawPinRepository.findByUserId(userId)
