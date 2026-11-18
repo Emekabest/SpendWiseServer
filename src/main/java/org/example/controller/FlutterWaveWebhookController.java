@@ -33,7 +33,6 @@ public class FlutterWaveWebhookController {
 
         try {
 
-
             // 1. Authenticate the webhook
             if (signature == null ||
                     !java.security.MessageDigest.isEqual(
@@ -74,10 +73,9 @@ public class FlutterWaveWebhookController {
                 transactionService.update(transaction);
             }
 
+
             return ResponseEntity.ok().build();
-
         } catch (Exception e) {
-
 
             throw new RuntimeException(e);
         }

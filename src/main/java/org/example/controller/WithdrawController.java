@@ -1,8 +1,13 @@
 package org.example.controller;
 
 import org.example.dto.BankAccountDetails;
-import org.example.model.Withdraw;
+import org.example.dto.WithdrawRequest;
+import org.example.enums.TransactionStatus;
+import org.example.enums.TransactionType;
+import org.example.model.DateTime;
+import org.example.model.Transaction;
 import org.example.service.FlutterWaveService;
+import org.example.service.TransactionService;
 import org.example.service.UserService;
 import org.example.service.WithdrawService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @RestController
@@ -30,25 +36,42 @@ public class WithdrawController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TransactionService transactionService;
+
 
 
     @PostMapping({"/api/v1/withdraw"})
-    public String withdraw(@RequestBody Withdraw withdraw){
+    public String withdraw(@RequestBody WithdrawRequest withdrawRequest, Authentication authentication){
 
         try {
+            String userEmail = authentication.getName();
+            int userId = userService.getUser(userEmail).getId();
+
             String transactionRef = UUID.randomUUID().toString();
 
-            flutterWaveService.transfer(
-                    withdraw.getAccountNumber(),
-                    withdraw.getBank(),
-                    withdraw.getAmount(),
-                    transactionRef
+            String response = flutterWaveService.transfer(
+                withdrawRequest.accountNumber(),
+                withdrawRequest.bank(),
+                withdrawRequest.amount(),
+                transactionRef
             );
 
-            return "Successful";
+
+            Transaction transaction = new Transaction(
+                    transactionRef,
+                    userId,
+                    TransactionType.withdrawal,
+                    BigDecimal.valueOf(withdrawRequest.amount()),
+                    DateTime.getLocalDateTime(),
+                    TransactionStatus.pending
+            );
+
+            transactionService.add(transaction);
+
+            return response;
         } catch (Exception e) {
 
-            System.out.println("This error occurred::"+e.getMessage());
             throw new RuntimeException(e);
         }
 

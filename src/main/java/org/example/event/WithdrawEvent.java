@@ -1,17 +1,19 @@
 package org.example.event;
 
-import org.example.model.Withdraw;
+import org.example.model.Transaction;
 
 public class WithdrawEvent {
 
-    private final Withdraw withdraw;
+    private final Transaction transaction;
 
-    public WithdrawEvent(Withdraw withdraw){
-        this.withdraw = withdraw;
+    public WithdrawEvent(Transaction transaction){
+
+        this.transaction = transaction;
 
     }
 
-    public Withdraw getWithdraw() {
-        return withdraw;
+    public Transaction getTransaction(){
+
+        return transaction;
     }
 }

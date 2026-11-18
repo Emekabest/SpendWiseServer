@@ -30,7 +30,7 @@ public class FlutterWaveService {
     public String opayPayment(PaymentMethod paymentMethod, String userEmail){
         RestClient restClient = RestClient.create();
 
-        String response = restClient.post().uri("https://api.flutterwave.com/v3/charges?type=opay")
+        return restClient.post().uri("https://api.flutterwave.com/v3/charges?type=opay")
                 .header("Authorization", "Bearer " + FLW_SECRETKEY)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Map.of(
@@ -42,15 +42,15 @@ public class FlutterWaveService {
                 ))
                 .retrieve()
                 .body(String.class);
-
-        return response;
     }
+
 
 
     public String bankTransferPayment(String userEmail, int amount, String transactionRef){
         RestClient restClient = RestClient.create();
 
-        String response = restClient.post().uri("https://api.flutterwave.com/v3/charges?type=bank_transfer")
+
+        return restClient.post().uri("https://api.flutterwave.com/v3/charges?type=bank_transfer")
                 .header("Authorization", "Bearer " + FLW_SECRETKEY)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Map.of(
@@ -62,9 +62,6 @@ public class FlutterWaveService {
                 ))
                 .retrieve()
                 .body(String.class);
-
-
-        return response;
     }
 
 
@@ -89,8 +86,6 @@ public class FlutterWaveService {
                 .body(String.class);
 
 
-        System.out.println("This is response::"+response);
-
         return response;
     }
 
@@ -108,6 +103,7 @@ public class FlutterWaveService {
     public String confirmBankAccount(String accountNumber, String accountBank){
         RestClient restClient = RestClient.create();
 
+
         return restClient.post().uri("https://api.flutterwave.com/v3/accounts/resolve")
                 .header("Authorization", "Bearer " + FLW_SECRETKEY)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -116,14 +112,6 @@ public class FlutterWaveService {
                 "account_number", accountNumber,
                 "account_bank", accountBank
                 ))
-                .retrieve()
-                .body(String.class);
-    }
-
-
-    public String testFixie() {
-        return transferRestClient.get()
-                .uri("https://api.ipify.org")
                 .retrieve()
                 .body(String.class);
     }
