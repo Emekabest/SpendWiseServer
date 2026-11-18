@@ -13,10 +13,7 @@ import org.example.service.WithdrawService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -70,12 +67,26 @@ public class WithdrawController {
             transactionService.add(transaction);
 
             return response;
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
 
             throw new RuntimeException(e);
         }
 
     }
+
+    @GetMapping("/api/v1/withdraw/status")
+    public String withdrawStatus(@RequestParam String withdrawId){
+
+        try {
+
+            return flutterWaveService.transferStatus(withdrawId);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
 
 
 

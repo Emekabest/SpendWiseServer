@@ -66,9 +66,14 @@ public class FlutterWaveService {
 
 
 
+
+
+
+
     public String transfer(String accountNumber, String bank, int amount, String transactionRef){
 
-        String response = transferRestClient.post().uri("https://api.flutterwave.com/v3/transfers")
+
+        return transferRestClient.post().uri("https://api.flutterwave.com/v3/transfers")
                 .header("Authorization", "Bearer " + FLW_SECRETKEY)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
@@ -80,13 +85,20 @@ public class FlutterWaveService {
                     "debit_currency", "NGN",
                     "beneficiary_name", "SpendWise",
                     "reference", transactionRef,
-                    "narration", "SpendWise Withdraw"
+                    "narration", "Spendwise Withdraw"
                 ))
                 .retrieve()
                 .body(String.class);
+    }
 
+    public String transferStatus(String transferId){
+        RestClient restClient = RestClient.create();
 
-        return response;
+        return restClient.get().uri("https://api.flutterwave.com/v3/transfers/" + transferId)
+                .header("Authorization", "Bearer " + FLW_SECRETKEY)
+                .retrieve()
+                .body(String.class);
+
     }
 
 

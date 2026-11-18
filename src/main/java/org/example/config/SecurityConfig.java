@@ -42,6 +42,7 @@ public class SecurityConfig {
                         "/sendotp",
                         "/api/v1/verifyotp",
                         "/api/webhooks/flutterwave",
+                        "/api/v1/withdraw/status",
                         "/test-fixie"
                 )
                 .permitAll()
