@@ -52,7 +52,7 @@ public class WalletService {
     }
 
 
-
+    @Transactional
     public void updateAvailableBalance(String transactionRef){
         System.out.println("Reached here in updateAvailableBalance--0");
 
