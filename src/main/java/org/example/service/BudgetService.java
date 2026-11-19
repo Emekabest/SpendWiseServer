@@ -163,7 +163,7 @@ public class BudgetService {
     }
 
 
-    @Transactional
+//    @Transactional
     public Budget getUserBudget(int userId) {
 
         System.out.println("Reached here");
@@ -181,6 +181,9 @@ public class BudgetService {
             System.out.println("Budget---reached--2::+"+budget.getStatus());
 
             budgetRepository.save(budget);
+
+            System.out.println("Budget---reached--3::+"+budget.getStatus());
+
 
             throw new BudgetNotFoundException(
                     "Your budget has expired. Please create a new budget."
