@@ -76,8 +76,7 @@ public class FlutterWaveWebhookController {
             return ResponseEntity.ok().build();
         } catch (Exception e) {
 
-
-            System.out.println("An error occurred::"+e.getMessage());
+            System.out.println("Error::"+e.getMessage());
             throw new RuntimeException(e);
         }
     }

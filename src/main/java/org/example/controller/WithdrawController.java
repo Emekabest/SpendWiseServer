@@ -42,10 +42,17 @@ public class WithdrawController {
     public String withdraw(@RequestBody WithdrawRequest withdrawRequest, Authentication authentication){
 
         try {
+
+            System.out.println("Reached here...0");
+
+
             String userEmail = authentication.getName();
             int userId = userService.getUser(userEmail).getId();
 
             String transactionRef = UUID.randomUUID().toString();
+
+            System.out.println("Reached here...1");
+
 
             String response = flutterWaveService.transfer(
                 withdrawRequest.accountNumber(),
@@ -53,6 +60,7 @@ public class WithdrawController {
                 withdrawRequest.amount(),
                 transactionRef
             );
+            System.out.println("Reached here...2");
 
 
             Transaction transaction = new Transaction(
@@ -66,6 +74,7 @@ public class WithdrawController {
 
             transactionService.add(transaction);
 
+            System.out.println("Reached here...3");
 
 
 
