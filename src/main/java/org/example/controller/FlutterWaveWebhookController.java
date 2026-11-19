@@ -53,7 +53,6 @@ public class FlutterWaveWebhookController {
             String status = data.path("status").asText();
 
 
-            System.out.println("This place was reached, Status::"+status);
 
 
             if (TransactionStatus.successful.name().equals(status)){

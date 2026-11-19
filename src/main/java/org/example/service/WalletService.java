@@ -68,9 +68,13 @@ public class WalletService {
 
             BigDecimal availableBalance = wallet.getAvailableBalance();
 
+            System.out.println("This place was reached, Type::"+ transactionType.name());
+
 
             //add_funds
             if (TransactionType.add_funds.name().equals(transactionType.name())){
+                System.out.println("This add_funds place was reached");
+
                  BigDecimal newAvailableBalance = availableBalance.add(transactionAmount);
 
                  wallet.setAvailableBalance(newAvailableBalance);
