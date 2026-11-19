@@ -174,10 +174,12 @@ public class BudgetService {
 
         LocalDate today = LocalDate.now(ZoneId.of("Africa/Lagos"));
 
-        System.out.println("Budget::+"+budget.getStatus());
+        System.out.println("Budget---reached--1::+"+budget.getStatus());
         if (today.isAfter(budget.getEndDate())) {
 
             budget.setStatus(BudgetStatus.EXPIRED);
+            System.out.println("Budget---reached--2::+"+budget.getStatus());
+
             budgetRepository.save(budget);
 
             throw new BudgetNotFoundException(
