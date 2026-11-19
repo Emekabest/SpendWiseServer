@@ -166,7 +166,7 @@ public class BudgetService {
     @Transactional
     public Budget getUserBudget(int userId) {
 
-
+        System.out.println("Reached here");
         Budget budget = budgetRepository
                 .findByUserIdAndStatus(userId, BudgetStatus.ACTIVE)
                 .orElseThrow(() ->
@@ -174,6 +174,7 @@ public class BudgetService {
 
         LocalDate today = LocalDate.now(ZoneId.of("Africa/Lagos"));
 
+        System.out.println("Budget::+"+budget.getStatus());
         if (today.isAfter(budget.getEndDate())) {
 
             budget.setStatus(BudgetStatus.EXPIRED);
