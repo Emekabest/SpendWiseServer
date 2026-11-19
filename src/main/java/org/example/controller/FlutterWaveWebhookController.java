@@ -34,7 +34,6 @@ public class FlutterWaveWebhookController {
         try {
 
             System.out.println("Webhook body: " + payload);
-            System.out.println("Webhook signature: " + signature);
 
             // 1. Authenticate the webhook
             if (signature == null ||
@@ -56,7 +55,7 @@ public class FlutterWaveWebhookController {
             String status = data.path("status").asText();
 
 
-//            System.out.println("This is data::"+data);
+            System.out.println("Payment Status::"+status);
 
 
 
@@ -86,6 +85,8 @@ public class FlutterWaveWebhookController {
             return ResponseEntity.ok().build();
         } catch (Exception e) {
 
+
+            System.out.println("An error occurred::"+e.getMessage());
             throw new RuntimeException(e);
         }
     }

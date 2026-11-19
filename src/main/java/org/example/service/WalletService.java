@@ -54,32 +54,50 @@ public class WalletService {
 
 
     public void updateAvailableBalance(String transactionRef){
+        System.out.println("Reached here in updateAvailableBalance--0");
+
         Transaction transaction = transactionService.get(transactionRef);
 
+
+        System.out.println("Reached here in updateAvailableBalance--1");
+
         if (TransactionStatus.pending.equals(transaction.getStatus())){
+            System.out.println("Reached here in updateAvailableBalance--2");
 
             int userId = transaction.getUserId();
 
             BigDecimal transactionAmount = transaction.getAmount();
             TransactionType transactionType = transaction.getType();
 
+            System.out.println("Reached here in updateAvailableBalance--3");
+
+
             Wallet wallet = walletRepository.findByUserIdForUpdate(userId)
                     .orElseThrow(()-> new RuntimeException("Wallet not found"));
 
+            System.out.println("Reached here in updateAvailableBalance--4");
+
+
             BigDecimal availableBalance = wallet.getAvailableBalance();
 
+            System.out.println("Reached here in updateAvailableBalance--5");
 
 
             //add_funds
             if (TransactionType.add_funds.name().equals(transactionType.name())){
+                System.out.println("Reached here in updateAvailableBalance--6");
 
-                 BigDecimal newAvailableBalance = availableBalance.add(transactionAmount);
+
+                BigDecimal newAvailableBalance = availableBalance.add(transactionAmount);
 
                  wallet.setAvailableBalance(newAvailableBalance);
 
                  walletRepository.save(wallet);
 
             }
+
+            System.out.println("Reached here in updateAvailableBalance--7");
+
 
         }
     }
