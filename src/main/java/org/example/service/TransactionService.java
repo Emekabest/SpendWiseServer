@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TransactionService {
@@ -22,24 +21,8 @@ public class TransactionService {
 
     public Transaction get(String transactionRef){
 
-        System.out.println("Searching for ref: " + transactionRef);
-
-
-//        Transaction transaction = new Transaction();
-
-        Optional<Transaction> transactionOptional = transactionRepository.findByTransactionRef(transactionRef);
-
-        System.out.println("Found: " + transactionOptional.isPresent());
-        if (transactionOptional.isPresent()){
-
-            System.out.println("Amount: " + transactionOptional.get().getAmount());
-//            transaction = transactionOptional.get();
-
-        }
-
-        return transactionOptional.orElseThrow(
-                () -> new RuntimeException("Transaction not found")
-        );
+        return transactionRepository.findByTransactionRef(transactionRef)
+                .orElseThrow(() -> new RuntimeException("Transaction not found"));
     }
 
 
@@ -50,11 +33,8 @@ public class TransactionService {
 
 
     public void update(String transactionRef, TransactionStatus status){
-            System.out.println("Transaction reached::-1");
 
             Transaction transaction = this.get(transactionRef);
-            System.out.println("Transaction reached::-2");
-            System.out.println("Transaction amount::"+ transaction.getAmount());
 
             transaction.setStatus(status);
 

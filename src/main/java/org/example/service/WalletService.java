@@ -58,7 +58,6 @@ public class WalletService {
 
         Transaction transaction = transactionService.get(transactionRef);
 
-
         System.out.println("Reached here in updateAvailableBalance--1");
 
         if (TransactionStatus.pending.equals(transaction.getStatus())){

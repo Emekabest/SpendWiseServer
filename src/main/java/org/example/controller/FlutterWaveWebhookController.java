@@ -57,7 +57,6 @@ public class FlutterWaveWebhookController {
             System.out.println("Payment Status::"+status);
 
 
-
             if (TransactionStatus.successful.name().equals(status)){
                 System.out.println("This add_funds place was reached");
 
