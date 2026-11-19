@@ -10,6 +10,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 
     List<Transaction> findByUserId(int userId);
 
+
     Optional<Transaction> findByTransactionRef(String transactionRef);
 
 }

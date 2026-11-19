@@ -22,15 +22,24 @@ public class TransactionService {
 
     public Transaction get(String transactionRef){
 
-        Transaction transaction = new Transaction();
+        System.out.println("Searching for ref: " + transactionRef);
+
+
+//        Transaction transaction = new Transaction();
 
         Optional<Transaction> transactionOptional = transactionRepository.findByTransactionRef(transactionRef);
+
+        System.out.println("Found: " + transactionOptional.isPresent());
         if (transactionOptional.isPresent()){
-            transaction = transactionOptional.get();
+
+            System.out.println("Amount: " + transactionOptional.get().getAmount());
+//            transaction = transactionOptional.get();
 
         }
 
-        return transaction;
+        return transactionOptional.orElseThrow(
+                () -> new RuntimeException("Transaction not found")
+        );
     }
 
 
