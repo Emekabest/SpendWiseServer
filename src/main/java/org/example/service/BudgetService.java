@@ -3,6 +3,7 @@ package org.example.service;
 import org.example.dto.BudgetRequest;
 import org.example.enums.BudgetStatus;
 import org.example.exception.BudgetNotFoundException;
+import org.example.exception.BudgetUsageNotFoundException;
 import org.example.model.Budget;
 import org.example.model.BudgetUsage;
 import org.example.repository.BudgetRepository;
@@ -162,19 +163,38 @@ public class BudgetService {
     }
 
 
-    public Budget getUserBudget(int userId){
+    @Transactional
+    public Budget getUserBudget(int userId) {
 
-        return budgetRepository
+
+        Budget budget = budgetRepository
                 .findByUserIdAndStatus(userId, BudgetStatus.ACTIVE)
-                .orElseThrow(() -> new BudgetNotFoundException("Budget not found"));
+                .orElseThrow(() ->
+                        new BudgetNotFoundException("Budget not found"));
+
+        LocalDate today = LocalDate.now(ZoneId.of("Africa/Lagos"));
+
+        if (today.isAfter(budget.getEndDate())) {
+
+            budget.setStatus(BudgetStatus.EXPIRED);
+            budgetRepository.save(budget);
+
+            throw new BudgetNotFoundException(
+                    "Your budget has expired. Please create a new budget."
+            );
+        }
+
+        return budget;
     }
 
 
     public BudgetUsage getUserBudgetUsage(long budgetId, LocalDate periodStartDate, LocalDate periodEndDate){
 
+
+
         return budgetUsageRepository
                 .findByBudgetIdAndPeriodStartDateAndPeriodEndDate(budgetId, periodStartDate, periodEndDate )
-                .orElseThrow(() -> new RuntimeException("Budget usage not found"));
+                .orElseThrow(() -> new BudgetUsageNotFoundException("Budget usage not found"));
     }
 
 }

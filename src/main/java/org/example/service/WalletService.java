@@ -1,9 +1,11 @@
 package org.example.service;
 
 
+import org.example.enums.BudgetStatus;
 import org.example.enums.TransactionStatus;
 import org.example.enums.TransactionType;
 import org.example.exception.BudgetNotFoundException;
+import org.example.exception.BudgetUsageNotFoundException;
 import org.example.model.Budget;
 import org.example.model.BudgetUsage;
 import org.example.model.Transaction;
@@ -146,7 +148,7 @@ public class WalletService {
             LocalDate periodStart;
             LocalDate periodEnd;
 
-            switch (budget.getType()) {
+            switch (budget.getType()){
 
                 case DAILY -> {
                     periodStart = today;
@@ -178,13 +180,23 @@ public class WalletService {
                 default -> throw new RuntimeException("Invalid budget type");
             }
 
-            BudgetUsage usage = budgetService.getUserBudgetUsage(budget.getId(), periodStart, periodEnd);
 
-            return budget.getAmount().subtract(usage.getAmountSpent());
 
-        } catch (BudgetNotFoundException e) {
+
+            if (BudgetStatus.EXPIRED.equals(budget.getStatus())) {
+
+                return BigDecimal.ZERO;
+            }
+            BudgetUsage budgetUsage = budgetService.getUserBudgetUsage(budget.getId(), periodStart, periodEnd);
+
+            return budget.getAmount().subtract(budgetUsage.getAmountSpent());
+
+        } catch (BudgetNotFoundException | BudgetUsageNotFoundException e) {
+
             return BigDecimal.ZERO;
         }
+
+
     }
 
 }

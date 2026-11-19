@@ -41,10 +41,10 @@ public class WithdrawController {
     @PostMapping({"/api/v1/withdraw"})
     public String withdraw(@RequestBody WithdrawRequest withdrawRequest, Authentication authentication){
 
+
         try {
 
             System.out.println("Reached here...0");
-
 
             String userEmail = authentication.getName();
             int userId = userService.getUser(userEmail).getId();
