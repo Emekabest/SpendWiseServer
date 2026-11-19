@@ -43,8 +43,6 @@ public class FlutterWaveWebhookController {
                 return ResponseEntity.status(401).build();
             }
 
-
-
             String event = payload.path("event").asText();
 
             JsonNode data = payload.path("data");
@@ -53,9 +51,13 @@ public class FlutterWaveWebhookController {
             String status = data.path("status").asText();
 
 
+            System.out.println("This is data::"+data);
+
 
 
             if (TransactionStatus.successful.name().equals(status)){
+                System.out.println("This add_funds place was reached");
+
                 //Fund User Wallet
                 walletService.updateAvailableBalance(transactionRef);
 
