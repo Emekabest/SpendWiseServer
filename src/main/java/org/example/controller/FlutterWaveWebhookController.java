@@ -33,6 +33,9 @@ public class FlutterWaveWebhookController {
 
         try {
 
+            System.out.println("Webhook body: " + payload);
+            System.out.println("Webhook signature: " + signature);
+
             // 1. Authenticate the webhook
             if (signature == null ||
                     !java.security.MessageDigest.isEqual(
@@ -43,6 +46,8 @@ public class FlutterWaveWebhookController {
                 return ResponseEntity.status(401).build();
             }
 
+
+
             String event = payload.path("event").asText();
 
             JsonNode data = payload.path("data");
@@ -51,7 +56,7 @@ public class FlutterWaveWebhookController {
             String status = data.path("status").asText();
 
 
-            System.out.println("This is data::"+data);
+//            System.out.println("This is data::"+data);
 
 
 
