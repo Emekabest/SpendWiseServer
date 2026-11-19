@@ -44,6 +44,9 @@ public class TransactionService {
             System.out.println("Transaction reached::-1");
 
             Transaction transaction = this.get(transactionRef);
+            System.out.println("Transaction reached::-2");
+            System.out.println("Transaction amount::"+ transaction.getAmount());
+
             transaction.setStatus(status);
 
             transactionRepository.save(transaction);
