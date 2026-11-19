@@ -163,7 +163,7 @@ public class BudgetService {
     }
 
 
-//    @Transactional
+//    @Transactional//
     public Budget getUserBudget(int userId) {
 
         System.out.println("Reached here");
