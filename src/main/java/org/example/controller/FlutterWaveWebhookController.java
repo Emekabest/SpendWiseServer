@@ -73,6 +73,7 @@ public class FlutterWaveWebhookController {
                 transactionService.update(transaction);
 
             } else if(TransactionStatus.failed.name().equals(status)){
+                System.out.println("This add_funds place was reached::failed");
 
                 Transaction transaction = new Transaction();
                 transaction.setTransactionRef(transactionRef);
