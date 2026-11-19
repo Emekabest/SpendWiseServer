@@ -17,10 +17,7 @@ public class UpdateTransactionController {
     public void update(@RequestBody Transaction transaction){
 
         try{
-            System.out.println("ID::"+transaction.getId());
-            System.out.println("Status::"+transaction.getStatus());
 
-            transactionService.update(transaction);
 
         } catch (Exception e) {
             throw new RuntimeException(e);

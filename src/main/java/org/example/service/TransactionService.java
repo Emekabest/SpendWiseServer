@@ -1,5 +1,6 @@
 package org.example.service;
 
+import org.example.enums.TransactionStatus;
 import org.example.model.Transaction;
 import org.example.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +40,11 @@ public class TransactionService {
     }
 
 
-    public void update(Transaction updatedTransaction){
+    public void update(String transactionRef, TransactionStatus status){
+            System.out.println("Transaction reached::-1");
 
-            Transaction transaction = this.get(updatedTransaction.getTransactionRef());
-            transaction.setStatus(updatedTransaction.getStatus());
+            Transaction transaction = this.get(transactionRef);
+            transaction.setStatus(status);
 
             transactionRepository.save(transaction);
     }

@@ -3,7 +3,6 @@ package org.example.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.example.enums.TransactionStatus;
-import org.example.model.Transaction;
 import org.example.service.TransactionService;
 import org.example.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,20 +64,13 @@ public class FlutterWaveWebhookController {
                 //Fund User Wallet
                 walletService.updateAvailableBalance(transactionRef);
 
-                Transaction transaction = new Transaction();
-                transaction.setTransactionRef(transactionRef);
-                transaction.setStatus(TransactionStatus.successful);
-
-                transactionService.update(transaction);
+                //Update Transaction
+                transactionService.update(transactionRef, TransactionStatus.successful);
 
             } else if(TransactionStatus.failed.name().equals(status)){
                 System.out.println("This add_funds place was reached::failed");
 
-                Transaction transaction = new Transaction();
-                transaction.setTransactionRef(transactionRef);
-                transaction.setStatus(TransactionStatus.failed);
-
-                transactionService.update(transaction);
+                transactionService.update(transactionRef, TransactionStatus.failed);
             }
 
 
