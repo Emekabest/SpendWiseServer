@@ -166,7 +166,6 @@ public class BudgetService {
 //    @Transactional//
     public Budget getUserBudget(int userId) {
 
-        System.out.println("Reached here");
         Budget budget = budgetRepository
                 .findByUserIdAndStatus(userId, BudgetStatus.ACTIVE)
                 .orElseThrow(() ->
@@ -174,16 +173,11 @@ public class BudgetService {
 
         LocalDate today = LocalDate.now(ZoneId.of("Africa/Lagos"));
 
-        System.out.println("Budget---reached--1::+"+budget.getStatus());
         if (today.isAfter(budget.getEndDate())) {
 
             budget.setStatus(BudgetStatus.EXPIRED);
-            System.out.println("Budget---reached--2::+"+budget.getStatus());
 
             budgetRepository.save(budget);
-
-            System.out.println("Budget---reached--3::+"+budget.getStatus());
-
 
             throw new BudgetNotFoundException(
                     "Your budget has expired. Please create a new budget."

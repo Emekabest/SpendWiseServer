@@ -1,14 +1,14 @@
 package org.example.controller;
 
-import org.example.model.DateTime;
 import org.example.model.Transaction;
-import org.example.model.User;
 import org.example.service.TransactionService;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TransactionController {
@@ -20,14 +20,14 @@ public class TransactionController {
     private UserService userService;
 
 
-    @PostMapping({"/transactions"})
-    public String transaction(@RequestBody Transaction transaction){
+    @GetMapping({"/api/v1/transaction/history"})
+    public Page<Transaction> transaction(Pageable pageable, Authentication authentication){
 
         try{
-            transaction.setTime(DateTime.getLocalDateTime());
-            transactionService.add(transaction);
+            String userEmail = authentication.getName();
+            int userId = userService.getUser(userEmail).getId();
 
-            return "Successful";
+            return transactionService.getTransactions(userId, pageable);
 
         } catch (Exception e) {
 
@@ -37,18 +37,6 @@ public class TransactionController {
     }
 
 
-    @GetMapping({"/transaction-history"})
-    public List<Transaction> getHistory(@RequestParam("email") String email){
-
-        try{
-            User user = userService.getUser(email);
-
-            return transactionService.getAll(user.getId());
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 
 }

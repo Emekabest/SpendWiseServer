@@ -4,9 +4,9 @@ import org.example.enums.TransactionStatus;
 import org.example.model.Transaction;
 import org.example.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class TransactionService {
@@ -26,9 +26,9 @@ public class TransactionService {
     }
 
 
-    public List<Transaction> getAll(int userId){
+    public Page<Transaction> getTransactions(int userId, Pageable pageable) {
 
-        return transactionRepository.findByUserId(userId);
+        return transactionRepository.findByUserId(userId, pageable);
     }
 
 
